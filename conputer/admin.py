@@ -9,9 +9,11 @@ class ComponentAdmin(admin.ModelAdmin):
 
     search_fields = ['name','description','brand__name','category__name']
 
-    list_filter = ['category']
+    list_filter = ['category', 'brand']
 
     readonly_fields = ['get_image']
+
+    autocomplete_fields = ['brand', 'category']
 
     def get_image(self, obj):
         if obj.img:

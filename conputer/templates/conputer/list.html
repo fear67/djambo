@@ -1,0 +1,20 @@
+{% for item in components %}
+    <div style="border: 1px solid #ccc; margin: 10px; padding: 10px; display: flex; align-items: center;">
+        
+        <!-- Проверка наличия картинки, чтобы не вылетала ошибка -->
+        {% if item.img %}
+            <img src="{{ item.img.url }}" width="100" style="margin-right: 20px;">
+        {% else %}
+            <div style="width: 100px; height: 100px; background: #eee; margin-right: 20px;">Нет фото</div>
+        {% endif %}
+
+        <div>
+            <h2>{{ item.brand.name }} {{ item.name }}</h2>
+            <p><strong>Категория:</strong> {{ item.category.name }}</p>
+            <p>{{ item.description }}</p>
+        </div>
+        
+    </div>
+{% empty %}
+    <p>Компонентов пока нет в базе данных.</p>
+{% endfor %}
