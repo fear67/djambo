@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class ModuleProjectConfig(AppConfig):
+class ComputerConfig(AppConfig):
     name = 'conputer'
