@@ -12,35 +12,40 @@
 
 <body>
     <header>
-        <nav class="navbar">
-            <li>
+        <nav class="navbar" id="id1">
+            <h1>PC SHOP CONPUTER</h1>
+            <li class="navbar">
                 <ul>Home</ul>
+                <ul>PC components</ul>
                 <ul>Community</ul>
                 <ul>About</ul>
                 <ul>Order</ul>
             </li>
+            <button>Log in</button>
+            <button>Sign up</button>
         </nav>
     </header>
     <main>
-        {% for item in components %}
-        <div class="component_box">
-        
-            {% if item.img %}
-                <img src="{{ item.img.url }}" class="img_component">
-            {% else %}
-                <div style="width: 100px; height: 100px; background: #eee; margin-right: 20px;">Нет фото</div>
-            {% endif %}
+        <div class="gridComponents">
+            {% for item in components %}
+            <div class="component_box">
+                {% if item.img %}
+                    <img src="{{ item.img.url }}" class="img_component">
+                {% else %}
+                    <div style="width: 100px; height: 100px; background: #eee; margin-right: 20px;">Нет фото</div>
+                {% endif %}
 
-            <div>
-                <h2>{{ item.brand.name }} {{ item.name }}</h2>
-                <p><strong>Категория:</strong> {{ item.category.name }}</p>
-                <p>{{ item.description }}</p>
+                    <h2>{{ item.brand.name }} {{ item.name }}</h2>
+                <!-- <div>
+                    <p>Категория: {{ item.category.name }}</p>
+                    <p>{{ item.description }}</p>
+                </div> -->
             </div>
-        
+            {% empty %}
+                <p>Компонентов пока нет в базе данных.</p>
+            {% endfor %}
         </div>
-        {% empty %}
-            <p>Компонентов пока нет в базе данных.</p>
-        {% endfor %}
+        
     </main>
     
 </body>
