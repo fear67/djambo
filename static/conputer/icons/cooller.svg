@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Внешняя рамка корпуса (раздвинул к самым краям) -->
+  <rect x="10" y="10" width="80" height="80" rx="8" />
+  
+  <!-- Отверстия под винты по углам -->
+  <circle cx="18" cy="18" r="1.5" fill="white" stroke="none" />
+  <circle cx="82" cy="18" r="1.5" fill="white" stroke="none" />
+  <circle cx="18" cy="82" r="1.5" fill="white" stroke="none" />
+  <circle cx="82" cy="82" r="1.5" fill="white" stroke="none" />
+
+  <!-- Очень массивная центральная втулка -->
+  <circle cx="50" cy="50" r="14" />
+  
+  <!-- 7 ГИГАНТСКИХ лопастей, заполняющих всё пространство -->
+  <g stroke-width="3.5">
+    <path d="M50 36c25-22 38 12 14 14" transform="rotate(0 50 50)" />
+    <path d="M50 36c25-22 38 12 14 14" transform="rotate(51 50 50)" />
+    <path d="M50 36c25-22 38 12 14 14" transform="rotate(103 50 50)" />
+    <path d="M50 36c25-22 38 12 14 14" transform="rotate(154 50 50)" />
+    <path d="M50 36c25-22 38 12 14 14" transform="rotate(206 50 50)" />
+    <path d="M50 36c25-22 38 12 14 14" transform="rotate(257 50 50)" />
+    <path d="M50 36c25-22 38 12 14 14" transform="rotate(308 50 50)" />
+  </g>
+</svg>

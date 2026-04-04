@@ -14,7 +14,7 @@ header{
 }
 
 body{
-    background: linear-gradient(50deg, #2c0000, #00061f);
+    background: linear-gradient(50deg, #3b0000, #000d3b);
     background-attachment: fixed;
     
 }
@@ -127,9 +127,9 @@ h2{
     content: '';
     position: absolute;
     z-index: -1;
-    inset: 1px; /* ТОЛЩИНА ОБВОДКИ */
-    background: #0f0f0f; /* ЦВЕТ ФОНА КАРТОЧКИ */
-    border-radius: 14px; /* Чуть меньше, чем у .card */
+    inset: 1px; 
+    background: #0f0f0f; 
+    border-radius: 14px; 
 }
 
 @keyframes rotate-border {
@@ -149,7 +149,8 @@ h2{
 }
 
 .gridComponents{
-    padding-top: 10rem;
+    margin: 2rem;
+    padding-top: 2rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
     gap: 20px;
@@ -181,29 +182,43 @@ button{
 }
 
 .sort{
-    margin-top: 3rem;
-    background-color: #00000071;
-    border-radius: 2rem;
+    padding: 0 0.3rem ;
+    margin-top: 5rem;
+    background-color: #00000036;
+    border-radius: 5rem;
     display: flex;
     overflow-x: auto; 
-    scroll-snap-type: x mandatory;
+    /* scroll-snap-type: x mandatory; */
     scrollbar-width: none;
+    max-width: 100%;
 }
 
 .sortblock{
-    margin: 2rem;
-    /* min-width: 150px; */
+    margin: 1rem;
+    border-radius: 4rem;
+    padding: 0.5rem 3rem ;
     min-height: 150px;
     color: #a4a4a4;
     font-family: sans-serif;
-    flex: 0 0 280px;           /* Важно: не даем карточке сжиматься (фиксируем ширину) */
+    flex: 0 0 260px;           
     scroll-snap-align: start;
+    transition: 0.6s;
+    
+}
+
+.sortblock:hover{
+    background-color: #0000003c;
 }
 
 .sort::-webkit-scrollbar {
-    display: none;           /* Прячем некрасивую полосу прокрутки */
+    display: none;           
 }
 
+.sortimg{
+    max-width: 100px;
+    max-height: 100px;
+    margin:  0.5rem 2rem;
+}
 
 .nav-btn {
     position: absolute;
@@ -216,21 +231,84 @@ button{
     border-radius: 50%;
     transition: 0.3s;
     font-size: 20px;
+    min-width: 40px;
 }
 
-.nav-btn:hover { background: rgba(0, 0, 0, 0.8); }
+.nav-btn:hover { background: rgba(233, 233, 233, 0.8); }
 
 .prev { left: 5px; }
 .next { right: 5px; }
 
-/* Чтобы контейнер не перекрывался кнопками, добавим внутренний отступ */
+
 .swipe-container {
     padding: 20px 40px; 
-    scroll-behavior: smooth; /* Плавная прокрутка при клике */
+    scroll-behavior: smooth; 
 }
 
 .slider-wrapper {
     position: relative;
     display: flex;
+    justify-content:center ;
     align-items: center;
+    max-width: 1300px;
+}
+
+.sortname{
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+#pricebox{
+    padding: 1rem;
+}
+
+.componentActions{
+    display: flex;
+    gap: 0.8rem
+}
+
+.actions{
+    padding: 0.7rem;
+    background-color: #622400;
+    border-radius: 0.7rem;
+    flex:1;
+    max-height: 40px;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.actions::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Прячем блик слева за границей */
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        to right, 
+        transparent, 
+        rgba(255, 255, 255, 0.3), /* Цвет блика */
+        transparent
+    );
+    transform: skewX(-25deg); /* Наклоняем блик для динамики */
+    transition: 0s;
+}
+
+.actions:hover::before {
+    left: 150%; /* Проносим блик насквозь вправо */
+    transition: 0.7s; /* Скорость пролета блика */
+}
+
+.actions:hover {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+    border-color: #666;
+}
+
+#description{
+    white-space: nowrap;     
+    overflow: hidden;       
+    text-overflow: ellipsis;
+    width: 100%; 
 }

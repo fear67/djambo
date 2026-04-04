@@ -5,11 +5,11 @@ from .models import Component, Component_category, Brand
 @admin.register(Component)
 class ComponentAdmin(admin.ModelAdmin):
 
-    list_display = ['name', 'description', 'brand','category','get_image']
+    list_display = ['name', 'description', 'brand','category','get_image', 'price']
 
     search_fields = ['name','description','brand__name','category__name']
 
-    list_filter = ['category', 'brand']
+    list_filter = ['category', 'brand', 'price']
 
     readonly_fields = ['get_image']
 

@@ -56,6 +56,12 @@ class Component(models.Model):
         verbose_name = "Изображение компонента"
     )
 
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
     class Meta:
         verbose_name = "Компонент",
         verbose_name_plural = "Компоненты"

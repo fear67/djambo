@@ -1,8 +1,8 @@
+<!DOCTYPE html>
 {% load static %} 
 <link rel="stylesheet" href="{% static 'conputer/css/style.css' %}">
 <script href="{% static 'conputer/script/script.css' %}"></script>
 
-<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,32 +31,38 @@
     </header>
     <main>
         <div class="slider-wrapper">
-        <button class="nav-btn prev" onclick="scrollSlider(-300)">&#10094;</button>
+        <!-- <button class="nav-btn prev" onclick="scrollSlider(-300)">&#10094;</button> -->
         <div class="sort" id="slider">
-            
             <div class="sortblock">
-                Материнская плата
+                <p class="sortname">Материнская плата</p>
+                <img class="sortimg" src="{% static 'conputer/icons/mat.svg' %}">
             </div>
             <div class="sortblock">
-                Блок питания
+                <p class="sortname">Блок питания</p>
+                <img class="sortimg" src="{% static 'conputer/icons/powerSuply.svg' %}">
             </div>
             <div class="sortblock">
-                Процессор
+                <p class="sortname">Процессор</p>
+                <img class="sortimg" src="{% static 'conputer/icons/processor.svg' %}">
             </div>
             <div class="sortblock">
-                Видеокарта
+                <p class="sortname">Видеокарта</p>
+                <img class="sortimg" src="{% static 'conputer/icons/videocard.svg' %}">
             </div>
             <div class="sortblock">
-                Корпус
+                <p class="sortname">Корпус</p>
+                <img class="sortimg" src="{% static 'conputer/icons/case.svg' %}">
             </div>
             <div class="sortblock">
-                Накопитель
+                <p class="sortname">Накопитель</p>
+                <img class="sortimg" src="{% static 'conputer/icons/disk.svg' %}">
             </div>
             <div class="sortblock">
-                Куллер
+                <p class="sortname">Куллер</p>    
+                <img class="sortimg" src="{% static 'conputer/icons/cooller.svg' %}">            
             </div>
         </div>
-        <button class="nav-btn next" onclick="scrollSlider(300)">&#10094;</button>
+        <!-- <button class="nav-btn next" onclick="scrollSlider(300)">&#10094;</button> -->
         </div>
         <div class="gridComponents">
             {% for item in components %}
@@ -71,7 +77,18 @@
                         <h2>{{ item.category.name }} {{ item.brand.name }} {{ item.name }}</h2>
                 </div>
                 <div class="infocomponent">
-                    <p>{{ item.description }}</p>
+                    <p id="description">{{ item.description }}</p>
+                </div>
+                <div id="pricebox">
+                    <p>Стоимость: {{ item.price }} ₽</p>
+                </div>
+                <div class="componentActions">
+                    <button class="actions">
+                        Подробнее
+                    </button>
+                    <button class="actions">
+                        Добавить в сборку
+                    </button>
                 </div>
             </div>
             {% empty %}
