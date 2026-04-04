@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 {% load static %} 
 <link rel="stylesheet" href="{% static 'conputer/css/style.css' %}">
-<script href="{% static 'conputer/script/script.css' %}"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -31,39 +30,25 @@
     </header>
     <main>
         <div class="slider-wrapper">
-        <!-- <button class="nav-btn prev" onclick="scrollSlider(-300)">&#10094;</button> -->
-        <div class="sort" id="slider">
-            <div class="sortblock">
-                <p class="sortname">Материнская плата</p>
-                <img class="sortimg" src="{% static 'conputer/icons/mat.svg' %}">
+            <button class="nav-btn prev" onclick="scrollSlider(-300)">❮</button>
+            <div class="sort" id="slider">
+                {% for item in categories %}
+                    <div class="sortblock">
+                        <p class="sortname">{{item.name}}</p>
+                        {% if item.img %}
+                            <img src="{{ item.img.url }}" class="sortimg">
+                        {% else %}
+                            <div style="width: 20px; height: 20px; color: #ffffff; margin-right: 20px;">Нет фото</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
             </div>
-            <div class="sortblock">
-                <p class="sortname">Блок питания</p>
-                <img class="sortimg" src="{% static 'conputer/icons/powerSuply.svg' %}">
-            </div>
-            <div class="sortblock">
-                <p class="sortname">Процессор</p>
-                <img class="sortimg" src="{% static 'conputer/icons/processor.svg' %}">
-            </div>
-            <div class="sortblock">
-                <p class="sortname">Видеокарта</p>
-                <img class="sortimg" src="{% static 'conputer/icons/videocard.svg' %}">
-            </div>
-            <div class="sortblock">
-                <p class="sortname">Корпус</p>
-                <img class="sortimg" src="{% static 'conputer/icons/case.svg' %}">
-            </div>
-            <div class="sortblock">
-                <p class="sortname">Накопитель</p>
-                <img class="sortimg" src="{% static 'conputer/icons/disk.svg' %}">
-            </div>
-            <div class="sortblock">
-                <p class="sortname">Куллер</p>    
-                <img class="sortimg" src="{% static 'conputer/icons/cooller.svg' %}">            
-            </div>
+            <button class="nav-btn next" onclick="scrollSlider(300)">❯</button>
         </div>
-        <!-- <button class="nav-btn next" onclick="scrollSlider(300)">&#10094;</button> -->
-        </div>
+        
+        
+        
+        
         <div class="gridComponents">
             {% for item in components %}
             <div class="component_box">
@@ -98,5 +83,6 @@
         </div>
         
     </main>
-    
+    {% load static %}
+    <script href="{% static 'conputer/script/script.js' %}"></script>
 </body>

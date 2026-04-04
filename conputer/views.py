@@ -6,4 +6,9 @@ from .models import Component, Component_category, Brand
 
 def component_list(request):
     components = Component.objects.all().select_related('brand', 'category')
-    return render(request, 'conputer/list.html', {'components': components})
+    categories = Component_category.objects.all() # Получаем все категории
+    return render(request, 'conputer/list.html', {
+        'components': components,
+        'categories': categories 
+    })
+

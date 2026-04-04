@@ -197,41 +197,37 @@ button{
     margin: 1rem;
     border-radius: 4rem;
     padding: 0.5rem 3rem ;
-    min-height: 150px;
-    color: #a4a4a4;
+    min-height: 80px;
     font-family: sans-serif;
-    flex: 0 0 260px;           
+    flex: 0 0 220px;           
     scroll-snap-align: start;
     transition: 0.6s;
-    
 }
 
 .sortblock:hover{
-    background-color: #0000003c;
+    background-color: #292929;
 }
 
 .sort::-webkit-scrollbar {
-    display: none;           
+    display: none;
 }
 
 .sortimg{
-    max-width: 100px;
-    max-height: 100px;
-    margin:  0.5rem 2rem;
+    max-width: 80px;
+    max-height: 80px;
+    margin:  0.5rem 1.5rem 0rem 2rem;
 }
 
 .nav-btn {
-    position: absolute;
-    z-index: 10;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0,0,0,0.5);
     color: white;
     border: none;
-    padding: 15px 10px;
+    padding: 10px;
     cursor: pointer;
-    border-radius: 50%;
-    transition: 0.3s;
-    font-size: 20px;
-    min-width: 40px;
+    z-index: 10;
+    border-radius: 5rem;
+    min-width: 50px;
+    min-height: 50px;
 }
 
 .nav-btn:hover { background: rgba(233, 233, 233, 0.8); }
@@ -254,7 +250,7 @@ button{
 }
 
 .sortname{
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     text-align: center;
 }
 
