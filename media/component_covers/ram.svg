@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <!-- Основной контур планки (Белый) -->
+    <path d="M5 35h90v30H5z" fill="none" stroke="#ffffff" stroke-width="4" />
+    
+    <!-- Боковые зазубрины крепления -->
+    <path d="M5 45c3 0 5 2 5 5s-2 5-5 5M95 45c-3 0-5 2-5 5s2 5 5 5" fill="none" stroke="#ffffff" stroke-width="3" />
+
+    <!-- Пять чипов памяти (Белые прямоугольники) -->
+    <g fill="none" stroke="#ffffff" stroke-width="3">
+        <rect x="15" y="42" width="10" height="16" rx="1" />
+        <rect x="31" y="42" width="10" height="16" rx="1" />
+        <rect x="47" y="42" width="10" height="16" rx="1" />
+        <rect x="63" y="42" width="10" height="16" rx="1" />
+        <rect x="79" y="42" width="10" height="16" rx="1" />
+    </g>
+
+    <!-- Контактная группа внизу (Белые деления) -->
+    <g fill="#ffffff">
+        <rect x="8" y="70" width="3" height="6" />
+        <rect x="15" y="70" width="3" height="6" />
+        <rect x="22" y="70" width="3" height="6" />
+        <rect x="29" y="70" width="3" height="6" />
+        <rect x="36" y="70" width="3" height="6" />
+        <rect x="43" y="70" width="3" height="6" />
+        <rect x="54" y="70" width="3" height="6" />
+        <rect x="61" y="70" width="3" height="6" />
+        <rect x="68" y="70" width="3" height="6" />
+        <rect x="75" y="70" width="3" height="6" />
+        <rect x="82" y="70" width="3" height="6" />
+        <rect x="89" y="70" width="3" height="6" />
+    </g>
+
+    <!-- Ключ (вырез) в центре контактов -->
+    <rect x="48" y="70" width="4" height="8" fill="#000000" />
+</svg>

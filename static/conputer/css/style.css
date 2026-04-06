@@ -6,17 +6,49 @@
 
 header{
     justify-content: center;
-    display: flex;
     margin: 0 auto ;
-    background-color: #000000;
     max-width: 900px;
-    border-radius: 0rem 0rem 2rem 2rem;
 }
 
 body{
     background: linear-gradient(50deg, #3b0000, #000d3b);
     background-attachment: fixed;
-    
+
+    position: relative;
+    min-height: 100vh;
+}
+
+
+body::before {
+    content: "";
+    position: fixed;
+    bottom: 0vh;
+    left: -70vh;
+    width: 70%;
+    height: 80vh;
+    background-image: url('../icons/скомп.png');
+    background-size: contain;
+    background-position: center; 
+    background-repeat: no-repeat;
+    opacity: 0.1;    
+    z-index: -1;    
+    pointer-events: none; 
+} 
+
+body::after {
+    content: "";
+    position: fixed;
+    right: -70vh;
+    bottom: 0vh;
+    width: 70%;
+    height: 80vh;
+    background-image: url('../icons/скомп.png');
+    background-size: contain;
+    background-position: center; 
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    z-index: -1;
+    pointer-events: none;
 }
 
 .navbar{
@@ -183,20 +215,21 @@ button{
 
 .sort{
     padding: 0 0.3rem ;
-    margin-top: 5rem;
-    background-color: #00000036;
+    margin-top: 1rem;
+    background-color: #00000000;
     border-radius: 5rem;
     display: flex;
     overflow-x: auto; 
     /* scroll-snap-type: x mandatory; */
     scrollbar-width: none;
     max-width: 100%;
+    border-bottom: 1px solid rgba(177, 177, 177, 0.534);
 }
 
 .sortblock{
     margin: 1rem;
     border-radius: 4rem;
-    padding: 0.5rem 3rem ;
+    padding: 0.5rem 2rem ;
     min-height: 80px;
     font-family: sans-serif;
     flex: 0 0 220px;           
@@ -205,7 +238,7 @@ button{
 }
 
 .sortblock:hover{
-    background-color: #292929;
+    background-color: #ffffff07;
 }
 
 .sort::-webkit-scrollbar {
@@ -219,6 +252,7 @@ button{
 }
 
 .nav-btn {
+    display: none;
     background: rgba(0,0,0,0.5);
     color: white;
     border: none;
@@ -308,3 +342,60 @@ button{
     text-overflow: ellipsis;
     width: 100%; 
 }
+
+.sortByPriceAND{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 4rem;
+    max-width: 1300px;
+    margin: 0 auto ;
+    margin-top: 5rem;
+    
+    border-radius: 5rem;
+}
+
+option{
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 1rem;
+    font-family: sans-serif;
+    color: rgb(177, 177, 177);
+    transition: 0.3s;
+}
+
+#sort-select{
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    font-size: 1rem;
+    font-family: sans-serif;
+    color: rgb(177, 177, 177);
+    transition: 0.3s;
+    margin-right: auto;
+}
+
+.submit:active{
+    transform: scale(1.1);
+}
+
+.search-form{
+    display: flex;
+    gap: 1rem;
+}
+
+.searchField{
+    padding: 8px 20px;
+    background-color: #3333333d;
+    color: rgb(177, 177, 177);
+    border-radius: 20px;
+    cursor: pointer;
+    max-height: 40px;
+}
+
+input:focus {
+    outline: none;
+    border: 2px solid #505050; 
+    background-color: #33333386;   
+    transition: 0.3s;        
+}
+

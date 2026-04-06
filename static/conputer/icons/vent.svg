@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+     <!-- Внешняя квадратная рамка -->
+    <rect x="10" y="10" width="80" height="80" rx="8" fill="none" stroke="#ffffff" stroke-width="4" />
+    
+    <!-- Отверстия для винтов по углам -->
+    <circle cx="18" cy="18" r="3" fill="#ffffff" />
+    <circle cx="82" cy="18" r="3" fill="#ffffff" />
+    <circle cx="18" cy="82" r="3" fill="#ffffff" />
+    <circle cx="82" cy="82" r="3" fill="#ffffff" />
+
+    <!-- Внутренний круг корпуса -->
+    <circle cx="50" cy="50" r="35" fill="none" stroke="#ffffff" stroke-width="2" />
+
+    <!-- Прямые лопасти (8 штук) -->
+    <g stroke="#ffffff" stroke-width="4" stroke-linecap="round">
+        <line x1="50" y1="50" x2="50" y2="20" />
+        <line x1="50" y1="50" x2="50" y2="80" />
+        <line x1="50" y1="50" x2="20" y2="50" />
+        <line x1="50" y1="50" x2="80" y2="50" />
+        <line x1="50" y1="50" x2="29" y2="29" />
+        <line x1="50" y1="50" x2="71" y2="71" />
+        <line x1="50" y1="50" x2="29" y2="71" />
+        <line x1="50" y1="50" x2="71" y2="29" />
+    </g>
+
+    <!-- Центральный хаб (мотор) -->
+    <circle cx="50" cy="50" r="8" fill="#000000" stroke="#ffffff" stroke-width="3" />
+</svg>

@@ -2,6 +2,9 @@
 {% load static %} 
 <link rel="stylesheet" href="{% static 'conputer/css/style.css' %}">
 
+{% load static %}
+<link rel="script" href="{% static 'conputer/script/script.js' %}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,6 +32,24 @@
         </nav>
     </header>
     <main>
+        <div class="sortByPriceAND">
+            <select id="sort-select" onchange="window.location.href = this.value;">
+                <option value="?sort=price" {% if current_sort == 'price' %}selected{% endif %}>
+                    Сначала дешевле
+               </option>
+                <option value="?sort=-price" {% if current_sort == '-price' %}selected{% endif %}>
+                    Сначала дороже
+                </option>
+            </select>
+            <form method="GET" action="" class="search-form">
+                <input class="searchField" type="text" name="q" placeholder="Поиск компонента..." value="{{ query }}">
+                <input type="hidden" name="sort" value="{{ current_sort }}">
+                <button type="submit">Найти</button>
+                
+            </form>
+        </div>
+        
+
         <div class="slider-wrapper">
             <button class="nav-btn prev" onclick="scrollSlider(-300)">❮</button>
             <div class="sort" id="slider">
@@ -68,7 +89,7 @@
                     <p>Стоимость: {{ item.price }} ₽</p>
                 </div>
                 <div class="componentActions">
-                    <button class="actions">
+                    <button class="actions" onclick="openModal('{{ item.name }}', '{{ item.description|escapejs }}', '{{ item.price }}', '{{ item.img.url }}')">
                         Подробнее
                     </button>
                     <button class="actions">
@@ -83,6 +104,4 @@
         </div>
         
     </main>
-    {% load static %}
-    <script href="{% static 'conputer/script/script.js' %}"></script>
 </body>
