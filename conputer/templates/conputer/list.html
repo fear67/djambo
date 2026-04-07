@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{% static 'conputer/css/style.css' %}">
 
 {% load static %}
-<link rel="script" href="{% static 'conputer/script/script.js' %}">
+<script src="{% static 'conputer/script/script.js' %}" defer></script>
 
 <head>
     <meta charset="UTF-8">
@@ -33,13 +33,9 @@
     </header>
     <main>
         <div class="sortByPriceAND">
-            <select id="sort-select" onchange="window.location.href = this.value;">
-                <option value="?sort=price" {% if current_sort == 'price' %}selected{% endif %}>
-                    Сначала дешевле
-               </option>
-                <option value="?sort=-price" {% if current_sort == '-price' %}selected{% endif %}>
-                    Сначала дороже
-                </option>
+            <select id="sort-select" onchange="updateFilters('sort', this.value)">
+                <option value="price" {% if current_sort == 'price' %}selected{% endif %}>Сначала дешевле</option>
+                <option value="-price" {% if current_sort == '-price' %}selected{% endif %}>Сначала дороже</option>
             </select>
             <form method="GET" action="" class="search-form">
                 <input class="searchField" type="text" name="q" placeholder="Поиск компонента..." value="{{ query }}">
@@ -54,7 +50,7 @@
             <button class="nav-btn prev" onclick="scrollSlider(-300)">❮</button>
             <div class="sort" id="slider">
                 {% for item in categories %}
-                    <div class="sortblock">
+                    <div class="sortblock {% if request.GET.category_name == item.name %}activeCategory{% endif %}" onclick="updateFilters('category_name', '{{ item.name }}')">
                         <p class="sortname">{{item.name}}</p>
                         {% if item.img %}
                             <img src="{{ item.img.url }}" class="sortimg">
@@ -89,7 +85,7 @@
                     <p>Стоимость: {{ item.price }} ₽</p>
                 </div>
                 <div class="componentActions">
-                    <button class="actions" onclick="openModal('{{ item.name }}', '{{ item.description|escapejs }}', '{{ item.price }}', '{{ item.img.url }}')">
+                    <button class="actions" onclick="openModal()">
                         Подробнее
                     </button>
                     <button class="actions">
@@ -98,7 +94,11 @@
                 </div>
             </div>
             {% empty %}
-                <p>Компонентов пока нет в базе данных.</p>
+                <p>Компонентов пока нет в базе данных.</p> 
+
+                <div class="modal">
+                    fafdasfdas
+                </div>
             {% endfor %}
             
         </div>

@@ -18,12 +18,17 @@ def component_list(request):
 
     components = Component.objects.all().select_related('brand', 'category')
 
+    category_filter = request.GET.get('category_name')
+    
     if query:
         components = components.filter(
             Q(name__icontains=query) | 
             Q(description__icontains=query) |
             Q(brand__name__icontains=query)
         )
+
+    if category_filter:
+        components = components.filter(category__name__iexact=category_filter)
 
     components = components.order_by(sort_by)
 

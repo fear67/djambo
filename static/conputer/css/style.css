@@ -234,11 +234,11 @@ button{
     font-family: sans-serif;
     flex: 0 0 220px;           
     scroll-snap-align: start;
-    transition: 0.6s;
+    transition: 0.2s;
 }
 
 .sortblock:hover{
-    background-color: #ffffff07;
+    background-color: #ffffff0a;
 }
 
 .sort::-webkit-scrollbar {
@@ -326,8 +326,8 @@ button{
 }
 
 .actions:hover::before {
-    left: 150%; /* Проносим блик насквозь вправо */
-    transition: 0.7s; /* Скорость пролета блика */
+    left: 150%; 
+    transition: 1s; 
 }
 
 .actions:hover {
@@ -399,3 +399,10 @@ input:focus {
     transition: 0.3s;        
 }
 
+.sortblock.activeCategory {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.modal{
+    display: none;
+}
