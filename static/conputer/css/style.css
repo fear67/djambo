@@ -21,6 +21,7 @@ body{
 
 body::before {
     content: "";
+    filter: blur(8px);
     position: fixed;
     bottom: 0vh;
     left: -70vh;
@@ -48,6 +49,7 @@ body::after {
     background-repeat: no-repeat;
     opacity: 0.3;
     z-index: -1;
+    filter: blur(8px);
     pointer-events: none;
 }
 
@@ -405,4 +407,12 @@ input:focus {
 
 .modal{
     display: none;
+}
+
+.autoris{
+    transition: 0.3s;
+}
+
+.autoris:hover{
+    color: white;
 }
