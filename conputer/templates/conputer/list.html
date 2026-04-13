@@ -18,14 +18,14 @@
         <nav class="navbar" id="id1">
             <h1>PC SHOP CONPUTER</h1>
             <li class="navbar">
-                <ul>Home</ul>
-                <ul >PC components</ul>
-                <ul>Community</ul>
-                <ul>About</ul>
-                <ul>Order</ul>
+                <ul><a href="{% url 'home' %}">Home</a></ul>
+                <ul><a href="#">Builds</a></ul>
+                <ul><a href="{% url 'build_list' %}">Community</a></ul>
+                <ul><a href="#">About</a></ul>
+                <ul><a href="#">Order</a></ul>
             </li>
             <div class="flex">
-                <button class="autoris" href="{% url 'autorisation' %}">Log in</button>
+                <button class="autoris">Log in</button>
                 <button class="autoris">Sign up</button>
             </div>
             

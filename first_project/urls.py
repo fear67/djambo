@@ -22,9 +22,8 @@ from conputer import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.component_list, name='component_list'),
-    # path('assemblies/', , name='my_assemblies'),
-    path('autorisation/', , name='autorisation'),
+    path('', views.component_list, name='home'),
+    path('builds/', views.build_list, name='build_list'),
 ]
 
 if settings.DEBUG: urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

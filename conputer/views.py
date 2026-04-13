@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Q
 from django.contrib import messages
-from .models import Component, Component_category, Brand
+from .models import Component, Component_category, Brand, PCBuild 
 
 
 def component_list(request):
@@ -38,4 +38,8 @@ def component_list(request):
         'current_sort': sort_by,
         'query': query
     })
+
+def build_list(request):
+    builds = PCBuild.objects.all().order_by('-created_at')
+    return render(request, 'conputer/builds.html', {'builds': builds})
 

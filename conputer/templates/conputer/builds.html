@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сборки сообщества | Conputer</title>
+    <link rel="stylesheet" href="{% static 'conputer/css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <h1>PC SHOP CONPUTER</h1>
+            <ul class="navbar">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'build_list' %}">Builds</a></li>
+                <li><a href="#">Community</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1 style="text-align: center; margin-top: 2rem; font-size: 2rem;">Сборки пользователей</h1>
+        
+        <div class="gridComponents buildsGrid"> <!-- Добавил класс buildsGrid для расширения -->
+    {% for build in builds %}
+    <div class="component_box build_card" id="build-{{ build.id }}">
+        <div class="build_header">
+            {% if build.main_photo %}
+                <img src="{{ build.main_photo.url }}" class="img_component build_img">
+            {% else %}
+                <div class="img_component build_img no_photo_placeholder">Нет фото</div>
+            {% endif %}
+            
+            <div class="build_info_top">
+                <h2>{{ build.title }}</h2>
+                <p class="author_label">Автор: {{ build.user_name|default:"Аноним" }}</p>
+            </div>
+        </div>
+
+        <div class="infocomponent build_spec_list">
+            <p><strong>CPU:</strong> {{ build.cpu.name|default:"—" }}</p>
+            <p><strong>GPU:</strong> {{ build.gpu.name|default:"—" }}</p>
+            <p><strong>RAM:</strong> {{ build.ram.name|default:"—" }}</p>
+        </div>
+
+        <div id="pricebox_build"> <!-- Свой ID для отступов -->
+            <p>Стоимость: <span class="price_val">{{ build.get_total_price }} ₽</span></p>
+        </div>
+
+        <div class="componentActions full-width-actions">
+    <button class="actions info_btn">Детали</button>
+    <button class="actions order_btn">Заказать</button>
+</div>
+    </div>
+    {% endfor %}
+</div>
+        </div>
+    </main>
+</body>
+</html>
