@@ -54,37 +54,66 @@
             </form>
         </div>
 
-        <div class="gridComponents buildsGrid"> <!-- Добавил класс buildsGrid для расширения -->
+        <div class="gridComponents buildsGrid"> 
             {% for build in builds %}
             <div class="component_box build_card" id="build-{{ build.id }}">
-                <div class="build_header">
+                <div class="flex">
                     {% if build.main_photo %}
                     <img src="{{ build.main_photo.url }}" class="img_component build_img">
                     {% else %}
-                    <div class="img_component build_img no_photo_placeholder">Нет фото</div>
+                    <div class="img_component">Нет фото</div>
                     {% endif %}
 
-                    <div class="build_info_top">
+                    <div >
                         <h2>{{ build.title }}</h2>
                         <p class="author_label">Автор: {{ build.user_name|default:"Аноним" }}</p>
                     </div>
                 </div>
 
-                <div class="infocomponent build_spec_list">
+                <div class="infocomponent infobuilds">
                     <p><strong>CPU:</strong> {{ build.cpu.name|default:"—" }}</p>
                     <p><strong>GPU:</strong> {{ build.gpu.name|default:"—" }}</p>
                     <p><strong>RAM:</strong> {{ build.ram.name|default:"—" }}</p>
                 </div>
 
-                <div id="pricebox_build"> <!-- Свой ID для отступов -->
+                <div id="pading04"> 
                     <p>Стоимость: <span class="price_val">{{ build.get_total_price }} ₽</span></p>
                 </div>
 
-                <div class="componentActions full-width-actions">
-                    <button class="actions info_btn">Детали</button>
+                <div class="componentActions">
+                    <button class="actions info_btn" data-modal="build-modal-{{ build.id }}">
+                        Детали
+                    </button>
                     <button class="actions order_btn">Заказать</button>
                 </div>
             </div>
+
+<div id="build-modal-{{ build.id }}" class="modal-overlay" onclick="closeModal(this)">
+    <div class="modal-content build-modal-content" onclick="event.stopPropagation()">
+        <span class="close" onclick="closeModal(this.closest('.modal-overlay'))">&times;</span>
+        
+        <h2 class="modal-title">{{ build.title }}</h2>
+        <p class="modal-author">Автор: {{ build.user_name }}</p>
+        <hr class="modal-hr">
+
+        <div class="specs-grid">
+            <div class="spec-item"><span>Процессор:</span> <strong>{{ build.cpu.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Видеокарта:</span> <strong>{{ build.gpu.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Материнка:</span> <strong>{{ build.motherboard.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Память:</span> <strong>{{ build.ram.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Блок питания:</span> <strong>{{ build.powerSupply.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Корпус:</span> <strong>{{ build.case.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Накопитель 1:</span> <strong>{{ build.storage_primary.name|default:"—" }} ({{ build.storage_primary_quantity }} шт.)</strong></div>
+            <div class="spec-item"><span>Кулер:</span> <strong>{{ build.cooller.name|default:"—" }}</strong></div>
+        </div>
+
+        <div class="modal-price">
+            Итоговая стоимость: <span>{{ build.get_total_price }} ₽</span>
+        </div>
+    </div>
+</div>
+
+            
             {% endfor %}
         </div>
         </div>

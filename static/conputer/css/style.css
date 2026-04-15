@@ -434,3 +434,81 @@ input:focus {
     color: white;
 }
 
+.build_img{
+    width: 60%;
+}
+
+.buildsGrid{
+    grid-template-columns: repeat(auto-fill, minmax(333px, 1fr)); 
+}
+
+.infobuilds{
+    display: flex;          /* Включаем flexbox */
+    flex-direction: column; /* Выстраиваем элементы в колонку */
+    gap: 0.4rem
+}
+
+#pading04{
+    padding: 0.7rem;
+}
+
+
+
+.build-modal-content {
+    background: #121212 !important;
+    color: #ccc;
+    max-width: 600px !important;
+}
+
+.specs-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.spec-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.spec-item span { color: #888; }
+.spec-item strong { color: #fff; text-align: right; margin-left: 10px; }
+
+.modal-price {
+    font-size: 1.2rem;
+    text-align: right;
+    margin-top: 20px;
+}
+.modal-price span { color: #00ff88; font-weight: bold; }
+
+.modal-hr { border: 0; border-top: 1px solid #444; margin: 15px 0; }
+
+.modal-overlay {
+    display: none; /* ОБЯЗАТЕЛЬНО: скрываем по умолчанию */
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* Затемнение фона */
+    z-index: 9999; /* Чтобы было поверх всего сайта */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px); /* Твой любимый блюр */
+}
+
+/* Этот класс будет добавляться через JS (или меняться стиль) */
+.modal-content {
+    background: #1a1a1a;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    border: 1px solid #444;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    color: white;
+}

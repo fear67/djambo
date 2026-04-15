@@ -23,9 +23,21 @@ document.addEventListener('click',function(e)
         sendSort(pa.textContent);
     }
 
-    if(e.target.id === 'info')
-    {
-       
+    if (e.target.classList.contains('info_btn')) {
+        const modalId = e.target.getAttribute('data-modal');
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('close')) {
+        const modal = e.target.closest('.modal-overlay');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
     }
 })
 
@@ -47,13 +59,4 @@ function updateFilters(key, value) {
     }
     
     window.location.href = url.toString();
-}
-
-function openModal() {
-    
-}
-
-function closeModal(modalElement) {
-    modalElement.style.display = 'none';
-    document.body.style.overflow = 'auto'; 
 }
