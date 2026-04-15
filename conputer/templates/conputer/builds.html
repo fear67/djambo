@@ -1,61 +1,94 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Сборки сообщества | Conputer</title>
     <link rel="stylesheet" href="{% static 'conputer/css/style.css' %}">
 </head>
+
 <body>
     <header>
-        <nav class="navbar">
+        <nav class="navbar" id="id1">
             <h1>PC SHOP CONPUTER</h1>
-            <ul class="navbar">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'build_list' %}">Builds</a></li>
-                <li><a href="#">Community</a></li>
-            </ul>
+            <li class="navbar">
+                <ul><a href="{% url 'home' %}">Home</a></ul>
+                <ul><a href="#">Builds</a></ul>
+                <ul><a href="{% url 'build_list' %}">Community</a></ul>
+                <ul><a href="#">About</a></ul>
+                <ul><a href="#">Order</a></ul>
+            </li>
+            <div class="flex">
+                <button class="autoris">Log in</button>
+                <button class="autoris">Sign up</button>
+            </div>
         </nav>
     </header>
 
     <main>
-        <h1 style="text-align: center; margin-top: 2rem; font-size: 2rem;">Сборки пользователей</h1>
-        
+
+        <div class="sortByPriceAND">
+            <!-- Селект сортировки -->
+            <select id="sort-select" onchange="updateFilters('sort', this.value)">
+                <option value="-created_at" {% if current_sort == '-created_at' %}selected{% endif %}>Сначала новые</option>
+                <option value="created_at" {% if current_sort == 'created_at' %}selected{% endif %}>Сначала старые</option>
+                <option value="total_price" {% if current_sort == 'total_price' %}selected{% endif %}>Сначала дешевле</option>
+                <option value="-total_price" {% if current_sort == '-total_price' %}selected{% endif %}>Сначала дороже</option>
+            </select>
+
+            <form method="GET" action="" class="search-form">
+                <!-- Поиск по Названию/Автору -->
+                <input class="searchField" type="text" name="q_common" placeholder="Сборка или автор..."
+                    value="{{ q_common|default:'' }}">
+
+                <!-- Поиск по Деталям -->
+                <input class="searchField" type="text" name="q_parts" placeholder="Деталь (например, RTX)..."
+                    value="{{ q_parts|default:'' }}">
+
+                <!-- Скрытое поле для сохранения текущей сортировки -->
+                <input type="hidden" name="sort" value="{{ current_sort }}">
+
+                <button type="submit" class="actions">Применить</button>
+            </form>
+        </div>
+
         <div class="gridComponents buildsGrid"> <!-- Добавил класс buildsGrid для расширения -->
-    {% for build in builds %}
-    <div class="component_box build_card" id="build-{{ build.id }}">
-        <div class="build_header">
-            {% if build.main_photo %}
-                <img src="{{ build.main_photo.url }}" class="img_component build_img">
-            {% else %}
-                <div class="img_component build_img no_photo_placeholder">Нет фото</div>
-            {% endif %}
-            
-            <div class="build_info_top">
-                <h2>{{ build.title }}</h2>
-                <p class="author_label">Автор: {{ build.user_name|default:"Аноним" }}</p>
+            {% for build in builds %}
+            <div class="component_box build_card" id="build-{{ build.id }}">
+                <div class="build_header">
+                    {% if build.main_photo %}
+                    <img src="{{ build.main_photo.url }}" class="img_component build_img">
+                    {% else %}
+                    <div class="img_component build_img no_photo_placeholder">Нет фото</div>
+                    {% endif %}
+
+                    <div class="build_info_top">
+                        <h2>{{ build.title }}</h2>
+                        <p class="author_label">Автор: {{ build.user_name|default:"Аноним" }}</p>
+                    </div>
+                </div>
+
+                <div class="infocomponent build_spec_list">
+                    <p><strong>CPU:</strong> {{ build.cpu.name|default:"—" }}</p>
+                    <p><strong>GPU:</strong> {{ build.gpu.name|default:"—" }}</p>
+                    <p><strong>RAM:</strong> {{ build.ram.name|default:"—" }}</p>
+                </div>
+
+                <div id="pricebox_build"> <!-- Свой ID для отступов -->
+                    <p>Стоимость: <span class="price_val">{{ build.get_total_price }} ₽</span></p>
+                </div>
+
+                <div class="componentActions full-width-actions">
+                    <button class="actions info_btn">Детали</button>
+                    <button class="actions order_btn">Заказать</button>
+                </div>
             </div>
+            {% endfor %}
         </div>
-
-        <div class="infocomponent build_spec_list">
-            <p><strong>CPU:</strong> {{ build.cpu.name|default:"—" }}</p>
-            <p><strong>GPU:</strong> {{ build.gpu.name|default:"—" }}</p>
-            <p><strong>RAM:</strong> {{ build.ram.name|default:"—" }}</p>
-        </div>
-
-        <div id="pricebox_build"> <!-- Свой ID для отступов -->
-            <p>Стоимость: <span class="price_val">{{ build.get_total_price }} ₽</span></p>
-        </div>
-
-        <div class="componentActions full-width-actions">
-    <button class="actions info_btn">Детали</button>
-    <button class="actions order_btn">Заказать</button>
-</div>
-    </div>
-    {% endfor %}
-</div>
         </div>
     </main>
 </body>
+
 </html>
