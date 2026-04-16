@@ -37,7 +37,7 @@
                 
         </form>
         {% for item in all_components %}
-            <div class="component_box listforbuilding">
+            <div class="component_box listforbuilding sidebar-card js-build-card" data-id="{{ item.id }}" data-name="{{ item.name }}" style="cursor: pointer;">
                 <div class="flex">
                     {% if item.img %}
                         <img src="{{ item.img.url }}" class="img_component">
@@ -63,12 +63,20 @@
     </div>
 
     <div class="formarea">
-        {% for field in form %}
-            {% if field.name != 'title' and field.name != 'user_name' and field.name != 'main_photo' %}
-            <button class="formbut">{{field.label}}</button>
-            {% endif %}
-        {% endfor %}
-    </div>
+    {% for field in form %}
+        {% if field.name != 'title' and field.name != 'user_name' and field.name != 'main_photo' %}
+            <div class="field-container">
+                <button type="button" class="formbut" data-field="{{ field.name }}">
+                    <span class="label-text">{{ field.label }}</span>
+                </button>
+
+                <span id="val-{{ field.name }}">Не выбрано</span>
+
+                <div style="display: none;">{{ field }}</div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
 </main>
 
 <footer class="footer">

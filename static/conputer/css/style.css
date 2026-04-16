@@ -133,6 +133,12 @@ p{
     
 }
 
+.label-text{
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    color: rgb(177, 177, 177);
+}
+
 h1{
     font-family: sans-serif;
     font-size: 1rem;
