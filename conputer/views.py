@@ -4,6 +4,8 @@ from django.contrib import messages
 from .models import Component, Component_category, Brand, PCBuild 
 from django.db.models.functions import Coalesce
 from django.db import models
+from django.shortcuts import redirect
+from .forms import PCBuildForm
 
 def component_list(request):
     allowed_sort = ['price', '-price', 'name', 'id']
@@ -39,6 +41,8 @@ def component_list(request):
         'current_sort': sort_by,
         'query': query
     })
+
+
 
 def build_list(request):
     # 1. Собираем параметры из URL
@@ -103,4 +107,38 @@ def build_list(request):
         'current_sort': sort_by,
         'q_common': query_common,
         'q_parts': query_parts
+    })
+
+
+def building(request):
+    # 1. Обработка формы (POST) остается как была
+    if request.method == 'POST':
+        form = PCBuildForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('build_list')
+    else:
+        # 2. Передаем данные из GET обратно в форму, чтобы текст в полях не стирался при поиске
+        form = PCBuildForm(request.GET or None)
+
+    # 3. Логика поиска
+    query = request.GET.get('q_parts', '')
+    all_components = Component.objects.all().select_related('category', 'brand')
+
+    if query:
+        all_components = all_components.filter(
+            Q(name__icontains=query) | 
+            Q(description__icontains=query) |
+            Q(brand__name__icontains=query)
+        )
+
+    category_filter = request.GET.get('category_name')
+
+    if category_filter:
+        all_components = all_components.filter(category__name__iexact=category_filter)
+
+    return render(request, 'conputer/building.html', {
+        'form': form,
+        'all_components': all_components,
+        'q_parts': query, # Передаем обратно в шаблон для поля value
     })

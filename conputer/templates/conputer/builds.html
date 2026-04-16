@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Сборки сообщества | Conputer</title>
     <link rel="stylesheet" href="{% static 'conputer/css/style.css' %}">
+    <script src="{% static 'conputer/script/script.js' %}" defer></script>
 </head>
 
 <body>
@@ -15,7 +16,7 @@
             <h1>PC SHOP CONPUTER</h1>
             <li class="navbar">
                 <ul><a href="{% url 'home' %}">Home</a></ul>
-                <ul><a href="#">Builds</a></ul>
+                <ul><a href="{% url 'building' %}">Builds</a></ul>
                 <ul><a href="{% url 'build_list' %}">Community</a></ul>
                 <ul><a href="#">About</a></ul>
                 <ul><a href="#">Order</a></ul>
@@ -30,7 +31,6 @@
     <main>
 
         <div class="sortByPriceAND">
-            <!-- Селект сортировки -->
             <select id="sort-select" onchange="updateFilters('sort', this.value)">
                 <option value="-created_at" {% if current_sort == '-created_at' %}selected{% endif %}>Сначала новые</option>
                 <option value="created_at" {% if current_sort == 'created_at' %}selected{% endif %}>Сначала старые</option>
@@ -56,7 +56,7 @@
 
         <div class="gridComponents buildsGrid"> 
             {% for build in builds %}
-            <div class="component_box build_card" id="build-{{ build.id }}">
+            <div class="component_box" id="build-{{ build.id }}">
                 <div class="flex">
                     {% if build.main_photo %}
                     <img src="{{ build.main_photo.url }}" class="img_component build_img">
@@ -70,13 +70,15 @@
                     </div>
                 </div>
 
+                <div class="spacer"></div>
+
                 <div class="infocomponent infobuilds">
                     <p><strong>CPU:</strong> {{ build.cpu.name|default:"—" }}</p>
                     <p><strong>GPU:</strong> {{ build.gpu.name|default:"—" }}</p>
                     <p><strong>RAM:</strong> {{ build.ram.name|default:"—" }}</p>
                 </div>
 
-                <div id="pading04"> 
+                <div id="pricebox"> 
                     <p>Стоимость: <span class="price_val">{{ build.get_total_price }} ₽</span></p>
                 </div>
 
@@ -118,6 +120,21 @@
         </div>
         </div>
     </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>PC SHOP CONPUTER</h2>
+               <p>© 2026 Все права защищены</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="{% url 'home' %}">Каталог</a></li>
+                <li><a href="{% url 'build_list' %}">Сборки</a></li>
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </div>
+    </footer>
+
 </body>
 
 </html>

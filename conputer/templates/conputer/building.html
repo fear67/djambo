@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сборки сообщества | Conputer</title>
+    <link rel="stylesheet" href="{% static 'conputer/css/style.css' %}">
+    <script src="{% static 'conputer/script/script.js' %}" defer></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar" id="id1">
+            <h1>PC SHOP CONPUTER</h1>
+            <li class="navbar">
+                <ul><a href="{% url 'home' %}">Home</a></ul>
+                <ul><a href="{% url 'building' %}">Builds</a></ul>
+                <ul><a href="{% url 'build_list' %}">Community</a></ul>
+                <ul><a href="#">About</a></ul>
+                <ul><a href="#">Order</a></ul>
+            </li>
+            <div class="flex">
+                <button class="autoris">Log in</button>
+                <button class="autoris">Sign up</button>
+            </div>
+        </nav>
+    </header>
+
+
+<main class="building">
+    <div class="column">
+        <form method="GET" action="" class="search-form">
+            <input class="searchField marginbottom" type="text" name="q_parts" placeholder="Поиск компонента..." value="{{ query|default:"" }}">
+            <button type="submit">Найти</button>
+                
+        </form>
+        {% for item in all_components %}
+            <div class="component_box listforbuilding">
+                <div class="flex">
+                    {% if item.img %}
+                        <img src="{{ item.img.url }}" class="img_component">
+                    {% else %}
+                        <div style="width: 100px; height: 100px; background: #eee; margin-right: 20px;">Нет фото</div>
+                    {% endif %}
+                    <div>
+                        <h2>{{ item.category.name }} {{ item.brand.name }} {{ item.name }}</h2>
+                        <div class="smallprice">
+                            <p>Стоимость: {{ item.price }} ₽</p>
+                        </div>
+                    </div>
+                        
+                        
+                </div>
+                <div class="infocomponent small">
+                    <p id="description">{{ item.description }}</p>
+                </div>
+            </div>
+            {% empty %}
+                <p>Компонентов пока нет в базе данных.</p> 
+        {% endfor %}
+    </div>
+
+    <div class="formarea">
+        {% for field in form %}
+            {% if field.name != 'title' and field.name != 'user_name' and field.name != 'main_photo' %}
+            <button class="formbut">{{field.label}}</button>
+            {% endif %}
+        {% endfor %}
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <h2>PC SHOP CONPUTER</h2>
+            <p>© 2024 Все права защищены</p>
+        </div>
+        <ul class="footer-links">
+            <li><a href="{% url 'home' %}">Каталог</a></li>
+            <li><a href="{% url 'build_list' %}">Сборки</a></li>
+            <li><a href="#">Контакты</a></li>
+        </ul>
+    </div>
+</footer>
+</body>
