@@ -111,17 +111,14 @@ def build_list(request):
 
 
 def building(request):
-    # 1. Обработка формы (POST) остается как была
     if request.method == 'POST':
         form = PCBuildForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('build_list')
     else:
-        # 2. Передаем данные из GET обратно в форму, чтобы текст в полях не стирался при поиске
         form = PCBuildForm(request.GET or None)
 
-    # 3. Логика поиска
     query = request.GET.get('q_parts', '')
     all_components = Component.objects.all().select_related('category', 'brand')
 
@@ -140,5 +137,5 @@ def building(request):
     return render(request, 'conputer/building.html', {
         'form': form,
         'all_components': all_components,
-        'q_parts': query, # Передаем обратно в шаблон для поля value
+        'q_parts': query, 
     })

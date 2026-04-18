@@ -62,21 +62,55 @@
         {% endfor %}
     </div>
 
+    
+
     <div class="formarea">
-    {% for field in form %}
+        <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="maininfo flex">
+            <div>
+                <label class="UserComponent">Название сборки:</label>
+                <input type="text" name="title" class="searchField" placeholder="Введите название..." value="{{ form.title.value|default:'' }}">
+            </div>
+
+            <div>
+                <label class="UserComponent">Автор:</label>
+                <input type="text" name="user_name" class="searchField" id="autor_f" placeholder="Ваш ник" value="{{ form.user_name.value|default:'' }}">
+            </div>
+        </div>
+        <div class="flex butcont">
+        {% for field in form %}
         {% if field.name != 'title' and field.name != 'user_name' and field.name != 'main_photo' %}
-            <div class="field-container">
-                <button type="button" class="formbut" data-field="{{ field.name }}">
-                    <span class="label-text">{{ field.label }}</span>
-                </button>
-
-                <span id="val-{{ field.name }}">Не выбрано</span>
-
-                <div style="display: none;">{{ field }}</div>
+        
+            <div class="field-container ">
+                <div class="UsCompBox">
+                    <button type="button" class="formbut" data-field="{{ field.name }}">
+                        <span class="label-text">{{ field.label }}</span>
+                    </button>
+                    <div class="UserComponent" id="val-{{ field.name }}">Не выбрано</div>
+                    <div style="display: none;">{{ field }}</div>
+                </div>
             </div>
         {% endif %}
-    {% endfor %}
-</div>
+        {% endfor %}
+        </div>
+
+        <div class="photoupload">
+            <label for="id_main_photo" class="formaction">
+                <span>Загрузить фото сборки</span>
+            </label>
+    
+            <input type="file" name="main_photo" id="id_main_photo" accept="image/*" style="display: none;" onchange="previewImage(this)">
+    
+            <div id="photo-preview-box" style="margin-top: 10px; display: none;">
+                <img id="image-preview" src="#" alt="Превью" style="max-width: 100%; border-radius: 10px; border: 1px solid #444;">
+            </div>
+
+            
+        </div>
+            <button type="submit" class="formaction">Опубликовать сборку</button>
+        </form>
+    </div>
 </main>
 
 <footer class="footer">

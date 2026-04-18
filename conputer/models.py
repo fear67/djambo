@@ -202,6 +202,8 @@ class PCBuild(models.Model):
     )
     coollerCase_quantity = models.PositiveIntegerField(
         default=1, 
+        null=True, 
+        blank=True,
         verbose_name="Количество вентиляторов"
     )
 
@@ -241,3 +243,4 @@ class PCBuild(models.Model):
 
     def __str__(self):
         return f"{self.title} от {self.user_name}"
+    
