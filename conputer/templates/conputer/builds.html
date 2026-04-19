@@ -16,14 +16,22 @@
             <h1>PC SHOP CONPUTER</h1>
             <li class="navbar">
                 <ul><a href="{% url 'home' %}">Home</a></ul>
-                <ul><a href="{% url 'building' %}">Builds</a></ul>
+                <ul><a href="{% url 'building' %}">Configurator</a></ul>
                 <ul><a href="{% url 'build_list' %}">Community</a></ul>
-                <ul><a href="#">About</a></ul>
+                <ul><a href="#">My builds</a></ul>
                 <ul><a href="#">Order</a></ul>
             </li>
             <div class="flex">
-                <button class="autoris">Log in</button>
-                <button class="autoris">Sign up</button>
+            {% if user.is_authenticated %}
+                <button class="autoris">{{ user.username }}</button>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="autoris">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="autoris" id="regact">Log in</a>
+                <a href="{% url 'signup' %}" class="autoris" id="regact">Sign Up</a>
+            {% endif %}
             </div>
         </nav>
     </header>
@@ -95,7 +103,7 @@
         <span class="close" onclick="closeModal(this.closest('.modal-overlay'))">&times;</span>
         
         <h2 class="modal-title">{{ build.title }}</h2>
-        <p class="modal-author">Автор: {{ build.user_name }}</p>
+        <p>Автор: {{ build.author.username }}</p>
         <hr class="modal-hr">
 
         <div class="specs-grid">

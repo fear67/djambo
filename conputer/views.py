@@ -6,6 +6,9 @@ from django.db.models.functions import Coalesce
 from django.db import models
 from django.shortcuts import redirect
 from .forms import PCBuildForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 
 def component_list(request):
     allowed_sort = ['price', '-price', 'name', 'id']
@@ -109,12 +112,14 @@ def build_list(request):
         'q_parts': query_parts
     })
 
-
+@login_required
 def building(request):
     if request.method == 'POST':
         form = PCBuildForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            build = form.save(commit=False) 
+            build.author = request.user
+            build.save()
             return redirect('build_list')
     else:
         form = PCBuildForm(request.GET or None)
@@ -139,3 +144,15 @@ def building(request):
         'all_components': all_components,
         'q_parts': query, 
     })
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save() # Сохраняем нового юзера
+            login(request, user) # Автоматически "входим" под ним
+            return redirect('home') # Кидаем на главную
+    else:
+        form = UserCreationForm()
+    return render(request, 'conputer/signup.html', {'form': form})

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сборки сообщества | Conputer</title>
+    <title>Конфигуратор | Conputer</title>
     <link rel="stylesheet" href="{% static 'conputer/css/style.css' %}">
     <script src="{% static 'conputer/script/script.js' %}" defer></script>
 </head>
@@ -16,14 +16,22 @@
             <h1>PC SHOP CONPUTER</h1>
             <li class="navbar">
                 <ul><a href="{% url 'home' %}">Home</a></ul>
-                <ul><a href="{% url 'building' %}">Builds</a></ul>
+                <ul><a href="{% url 'building' %}">Configurator</a></ul>
                 <ul><a href="{% url 'build_list' %}">Community</a></ul>
-                <ul><a href="#">About</a></ul>
+                <ul><a href="#">My builds</a></ul>
                 <ul><a href="#">Order</a></ul>
             </li>
             <div class="flex">
-                <button class="autoris">Log in</button>
-                <button class="autoris">Sign up</button>
+            {% if user.is_authenticated %}
+                <button class="autoris">{{ user.username }}</button>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="autoris">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="autoris" id="regact">Log in</a>
+                <a href="{% url 'signup' %}" class="autoris" id="regact">Sign Up</a>
+            {% endif %}
             </div>
         </nav>
     </header>
@@ -73,21 +81,31 @@
                 <input type="text" name="title" class="searchField" placeholder="Введите название..." value="{{ form.title.value|default:'' }}">
             </div>
 
-            <div>
-                <label class="UserComponent">Автор:</label>
-                <input type="text" name="user_name" class="searchField" id="autor_f" placeholder="Ваш ник" value="{{ form.user_name.value|default:'' }}">
+            <div id="photopreviewbox">
+                <label class="UserComponent">Фото сборки:</label>
+                <img id="image-preview" src="#">
             </div>
         </div>
         <div class="flex butcont">
         {% for field in form %}
-        {% if field.name != 'title' and field.name != 'user_name' and field.name != 'main_photo' %}
+        {% if field.name != 'title' and field.name != 'user_name' and field.name != 'main_photo' and field.name != 'coollerCase_quantity' and field.name != 'storage_primary_quantity' and field.name != 'storage_second_quantity' %}
         
             <div class="field-container ">
                 <div class="UsCompBox">
                     <button type="button" class="formbut" data-field="{{ field.name }}">
                         <span class="label-text">{{ field.label }}</span>
                     </button>
-                    <div class="UserComponent" id="val-{{ field.name }}">Не выбрано</div>
+                    <div class="flex">
+                        <div class="UserComponent" id="val-{{ field.name }}">Не выбрано</div>
+                        {% if field.name == 'coollerCase' %}
+                            <input type="number" name="coollerCase_quantity" class="searchField" value="{{ form.coollerCase_quantity.value|default:1 }}" min="1" max="10">
+                        {% elif field.name == 'storage_primary' %}
+                            <input type="number" name="storage_primary_quantity" class="searchField" value="{{ form.storage_primary_quantity.value|default:1 }}" min="1" max="10">
+                        {% elif field.name == 'storage_second' %}
+                            <input type="number" name="storage_second_quantity" class="searchField" value="{{ form.storage_second_quantity.value|default:1 }}" min="1" max="10">
+                        {% endif %}
+                    </div>
+                    
                     <div style="display: none;">{{ field }}</div>
                 </div>
             </div>
@@ -101,10 +119,6 @@
             </label>
     
             <input type="file" name="main_photo" id="id_main_photo" accept="image/*" style="display: none;" onchange="previewImage(this)">
-    
-            <div id="photo-preview-box" style="margin-top: 10px; display: none;">
-                <img id="image-preview" src="#" alt="Превью" style="max-width: 100%; border-radius: 10px; border: 1px solid #444;">
-            </div>
 
             
         </div>

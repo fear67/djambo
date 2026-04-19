@@ -2,6 +2,7 @@ from django.db import models
 from django.db import models
 from django.urls import reverse
 from django.core.validators import FileExtensionValidator
+from django.contrib.auth.models import User
 
 class Component_category(models.Model):
     name = models.CharField(
@@ -87,11 +88,10 @@ class PCBuild(models.Model):
         max_length=200, 
         verbose_name="Название сборки"
     )
-    user_name = models.CharField(
-        max_length=100,
-        verbose_name="Имя автора",
-        blank=True
-    )
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Автор")
+ 
+    is_published = models.BooleanField(default=False, verbose_name="Опубликовать в сообществе")
+
     created_at = models.DateTimeField(
         auto_now_add=True, 
         verbose_name="Дата создания"
@@ -242,5 +242,5 @@ class PCBuild(models.Model):
         return total
 
     def __str__(self):
-        return f"{self.title} от {self.user_name}"
+        return f"{self.title} от {self.author.username}"
     

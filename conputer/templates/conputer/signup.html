@@ -1,0 +1,38 @@
+{% block content %}
+<main style="display: flex; justify-content: center; padding-top: 3rem;">
+    <div class="formarea" style="max-width: 450px; width: 100%; padding: 2rem;">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Регистрация</h2>
+        
+        <form method="POST" id="signup-form">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div style="margin-bottom: 1rem;">
+                    <p style="margin-bottom: 5px; margin-left: 10px;">{{ field.label }}</p>
+                    {{ field }} <!-- Django сам вставит input -->
+                    
+                    {% if field.help_text %}
+                        <div style="font-size: 0.7rem; color: #666; margin: 5px 10px;">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                    
+                    {% for error in field.errors %}
+                        <p style="color: #ff4d4d; font-size: 0.8rem; margin-left: 10px;">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="actions" style="width: 100%; height: 45px; margin-top: 1rem;">
+                <span class="label-text">Создать аккаунт</span>
+            </button>
+        </form>
+    </div>
+</main>
+
+<script>
+    // Магия: находим все инпуты в форме регистрации и даем им твой класс
+    document.querySelectorAll('#signup-form input').forEach(input => {
+        input.classList.add('searchField');
+        input.style.width = '100%';
+    });
+</script>
+{% endblock %}

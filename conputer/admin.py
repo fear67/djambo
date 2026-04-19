@@ -46,10 +46,10 @@ class BrandAdmin(admin.ModelAdmin):
 
 @admin.register(PCBuild)
 class PCBuildAdmin(admin.ModelAdmin):
-    list_display = ['title', 'user_name', 'get_image', 'get_total_price']
+    list_display = ['title', 'author', 'get_image', 'get_total_price']
     readonly_fields = ['get_image', 'display_total_price']
     
-    search_fields = ['title', 'user_name']
+    search_fields = ['title', 'author']
     
     # Фильтр справа
     list_filter = ['created_at']
@@ -62,7 +62,7 @@ class PCBuildAdmin(admin.ModelAdmin):
 
     fieldsets = (
     ('Основная информация', {
-        'fields': ('title', 'user_name')
+        'fields': ('title', 'author')
     }),
     ('Визуализация', {
         'fields': ('main_photo', 'get_image') # Поле для загрузки и превью

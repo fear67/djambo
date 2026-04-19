@@ -241,16 +241,17 @@ button{
 }
 
 .sort{
-    padding: 0 0.3rem ;
-    margin-top: 1rem;
+    padding: 1rem 0.3rem 1.5rem 0.3rem; 
+    margin: 1rem 0;
     background-color: #00000000;
     border-radius: 5rem;
     display: flex;
     overflow-x: auto; 
     /* scroll-snap-type: x mandatory; */
-    scrollbar-width: none;
     max-width: 100%;
-    border-bottom: 1px solid rgba(177, 177, 177, 0.534);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.226);
+    scrollbar-width: thin; 
+    scrollbar-color: #4646465e transparent; 
 }
 
 .sortblock{
@@ -591,7 +592,7 @@ input:focus {
     min-width: 200px;
     background-color: #00000035;
     border-radius: 1rem;
-    min-height: 1000px;
+    min-height: 800px;
     position: sticky;  
     top: 20px;         
     align-self: flex-start;
@@ -605,7 +606,7 @@ input:focus {
     margin: 0;
     padding: 1rem;
     background-color: #26262694;
-    border-radius: 1.3rem;
+    border-radius: 1rem;
     width: 100%;
     margin-bottom: 1rem;
 }
@@ -617,13 +618,13 @@ input:focus {
 .UserComponent{
     color: rgb(163, 163, 163);
     font-family: sans-serif;
-    margin: 0 1rem ;
+    margin: 0.5rem 1rem ;
     font-size:0.8rem;
     width: 200px;
 }
 
 .UsCompBox{
-    padding: 0.2rem 0.2rem 1rem 0.2rem;
+    padding: 0.2rem;
     background-color: #000000;
     border-radius: 1.3rem;
     margin: 1.5rem;
@@ -632,6 +633,7 @@ input:focus {
 
 .maininfo{
     margin-top: 2rem;
+    align-items: start;
 }
 
 .field-container{
@@ -689,7 +691,45 @@ html {
     font-size: 0.8rem;
     margin: 1rem;
     padding: 1rem;
-    background: linear-gradient(135deg, #780000, #621ea1);;
+    background: linear-gradient(135deg, #780000, #621ea1);
     border-radius: 1rem;
-    color:#d1d1d1
+    color:#d1d1d1;
+    transition: 0.3s;
+}
+
+.formaction:hover{
+    transform: scale(1.05);
+}
+
+#photopreviewbox{
+    display: flex;
+    max-width: 100%;
+    max-height: 100px;
+    border-radius: 1rem;
+    margin-left: auto;
+    margin-right: 2rem;
+}
+
+#image-preview{
+    max-height: 100px;
+    margin-left: 3rem;
+    border-radius: 1rem;
+    display: none;
+}
+
+#marginleft1r{
+    margin-left:1rem;
+}
+
+#regact:hover{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.formarea input {
+    padding: 8px 20px;
+    background-color: #3333333d;
+    color: rgb(177, 177, 177);
+    border-radius: 20px;
+    cursor: pointer;
+    max-height: 40px;
 }

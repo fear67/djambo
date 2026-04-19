@@ -38,10 +38,9 @@ document.addEventListener('click', function (e) {
         
         const fieldName = btn.getAttribute('data-field');
         const text = btn.querySelector('.label-text').textContent.trim();
-
-        // Если это не "Количество", отправляем фильтр в URL
+        let cleanText = text.replace(/[0-9]/g, '').trim();
         if (!text.includes("Количество")) {
-            sendSort(text, fieldName);
+            sendSort(cleanText, fieldName);
         }
     }
 
@@ -130,14 +129,15 @@ if (postForm) {
 }
 
 function previewImage(input) {
-    const previewBox = document.getElementById('photo-preview-box');
+    const previewBox = document.getElementById('photopreviewbox');
     const previewImg = document.getElementById('image-preview');
     if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
             previewImg.src = e.target.result;
-            previewBox.style.display = 'block';
+            previewImg.style.display = 'flex';
         }
         reader.readAsDataURL(input.files[0]);
     }
 }
+

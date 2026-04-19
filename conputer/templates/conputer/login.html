@@ -1,0 +1,25 @@
+{% block content %}
+<main style="display: flex; justify-content: center; padding-top: 5rem;">
+    <!-- Твой контейнер -->
+    <div class="formarea" style="max-width: 400px; width: 100%; padding: 2rem;">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Вход</h2>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div style="margin-bottom: 1.5rem;">
+                <p style="margin-bottom: 5px; margin-left: 10px;">Логин</p>
+                <input type="text" name="username" class="searchField" style="width: 100%;" required>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <p style="margin-bottom: 5px; margin-left: 10px;">Пароль</p>
+                <input type="password" name="password" class="searchField" style="width: 100%;" required>
+            </div>
+
+            <button type="submit" class="actions" style="width: 100%; height: 45px;">
+                <span class="label-text">Войти</span>
+            </button>
+        </form>
+    </div>
+</main>
+{% endblock %}

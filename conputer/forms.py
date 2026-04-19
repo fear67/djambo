@@ -4,11 +4,12 @@ from .models import PCBuild
 class PCBuildForm(forms.ModelForm):
     class Meta:
         model = PCBuild
-        # Список полей, которые пользователь будет заполнять
         fields = [
-            'title', 'user_name', 'main_photo',
+            'title', 'main_photo',
             'cpu', 'gpu', 'motherboard', 'ram', 
-            'powerSupply', 'case', 'storage_primary', 
+            'powerSupply', 'case', 
+            'storage_primary', 'storage_primary_quantity', # Первый диск
+            'storage_second', 'storage_second_quantity',   # ВТОРОЙ ДИСК (проверь это!)
             'cooller', 'coollerCase', 'coollerCase_quantity'
         ]
         
