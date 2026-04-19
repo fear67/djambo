@@ -156,3 +156,11 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'conputer/signup.html', {'form': form})
+
+
+
+@login_required
+def mybuilds(request):
+    # Фильтруем сборки по текущему юзеру
+    user_builds = PCBuild.objects.filter(author=request.user).order_by('-id')
+    return render(request, 'conputer/mybuilds.html', {'builds': user_builds})

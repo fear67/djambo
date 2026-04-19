@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои сборки | Conputer</title>
+    <link rel="stylesheet" href="{% static 'conputer/css/style.css' %}">
+    <script src="{% static 'conputer/script/script.js' %}" defer></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar" id="id1">
+            <h1>PC SHOP CONPUTER</h1>
+            <li class="navbar">
+                <ul><a href="{% url 'home' %}">Home</a></ul>
+                <ul><a href="{% url 'building' %}">Configurator</a></ul>
+                <ul><a href="{% url 'build_list' %}">Community</a></ul>
+                <ul><a href="{% url 'mybuilds' %}">My builds</a></ul>
+                <ul><a href="#">Order</a></ul>
+            </li>
+            <div class="flex">
+            {% if user.is_authenticated %}
+                <button class="autoris">{{ user.username }}</button>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="autoris">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="autoris" id="regact">Log in</a>
+                <a href="{% url 'signup' %}" class="autoris" id="regact">Sign Up</a>
+            {% endif %}
+            </div>
+        </nav>
+    </header>
+<main>
+    <h2 style="margin: 2rem; text-align: center;">Мои сборки</h2>
+    <div class="gridComponents">
+        {% for build in builds %}
+            <div class="component_box">
+                <div class="flex" style="flex-direction: column; align-items: center;">
+                    {% if build.main_photo %}
+                        <img src="{{ build.main_photo.url }}" class="img_component" style="width: 100%; height: 150px; object-fit: cover;">
+                    {% else %}
+                        <div class="img_component" style="width: 100%; height: 150px; background: #222; display: flex; align-items: center; justify-content: center;">Нет фото</div>
+                    {% endif %}
+                    <h2 style="margin-top: 10px;">{{ build.title }}</h2>
+                    <p style="font-size: 0.7rem; color: {% if build.is_published %}#00ff88{% else %}#ff4d4d{% endif %};">
+                        {{ build.is_published|yesno:"Опубликовано,Черновик" }}
+                    </p>
+                </div>
+
+                <div class="componentActions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 15px;">
+                    <button class="actions info_btn" data-modal="modal-{{ build.id }}">Инфо</button>
+                    
+                    <a href="" class="actions" style="background-color: #333; display: flex; align-items: center; justify-content: center;">Изменить</a>
+                    
+                    <!-- Опубликовать/Скрыть -->
+                    <form action="" method="POST" style="width: 100%;">
+                        {% csrf_token %}
+                        <button type="submit" class="actions" style="width: 100%; background-color: #004d40;">
+                            {{ build.is_published|yesno:"Скрыть,Опубликовать" }}
+                        </button>
+                    </form>
+
+                    <!-- Удалить -->
+                    <form action="" method="POST" style="width: 100%;" onsubmit="return confirm('Удалить сборку?')">
+                        {% csrf_token %}
+                        <button type="submit" class="actions" style="background-color: #4b0000; width: 100%;">Удалить</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Не забудь вставить сюда код твоего модального окна для "Инфо" -->
+        {% endfor %}
+    </div>
+</main>
+</body>
