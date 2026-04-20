@@ -65,7 +65,7 @@
                     </form>
                     <form action="{% url 'add_to_cart' build.id %}" method="POST" style="flex: 1;">
                     {% csrf_token %}
-                        <button type="submit" class="actions order_btn" style="background-color: #004d40 ; width: 100%;">
+                        <button type="submit" class="actions order_btn" style="width: 100%;">
                             В корзину
                         </button>
                     </form>
@@ -73,6 +73,10 @@
                     <form action="{% url 'delete_build' build.id %}" method="POST" onsubmit="return confirm('Удалить сборку?')">
                         {% csrf_token %}
                         <button type="submit" class="actions fixw delete">Удалить</button>
+                    </form>
+                    <form action="{% url 'add_to_favorites' build.id %}" method="POST" class="fav-form">
+                    {% csrf_token %}
+                        <button type="submit" class="star-btn">⭐</button>
                     </form>
                 </div>
             </div>

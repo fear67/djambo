@@ -248,6 +248,7 @@ class PCBuild(models.Model):
 class Order(models.Model):
     STATUS_CHOICES = [
         ('cart', 'В корзине'),
+        ('favorite', 'В избранном'),  
         ('pending', 'Оформлен'),
         ('shipped', 'В пути'),
         ('done', 'Завершен'),

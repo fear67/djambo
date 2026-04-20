@@ -38,6 +38,9 @@ urlpatterns = [
     path('orders/', views.orders_view, name='orders_view'),
     path('checkout/<int:order_id>/', views.checkout_order, name='checkout_order'),
     path('add-to-cart/<int:build_id>/', views.add_to_cart, name='add_to_cart'),
+    path('add-to-favorites/<int:build_id>/', views.add_to_favorites, name='add_to_favorites'),
+    path('order-delete/<int:order_id>/', views.delete_order, name='delete_order'),
+    path('delete-order/<int:order_id>/', views.delete_order, name='delete_order'),
 ]
 
 if settings.DEBUG: urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

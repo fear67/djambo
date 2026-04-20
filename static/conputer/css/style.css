@@ -596,6 +596,7 @@ input:focus {
     position: sticky;  
     top: 20px;         
     align-self: flex-start;
+    border: #44444423 1px solid;
 }
 
 .marginbottom{
@@ -897,4 +898,64 @@ html {
     font-size: 0.9rem;
     font-style: italic;
     text-align: right;
+}
+
+.cart-total h2 {
+    font-family: sans-serif;
+    margin-top: 5px;
+}
+
+.favorite-section {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2rem 0; /* Отступы внутри границ */
+    margin: 1rem 0;
+}
+
+.small-action-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: #888;
+    font-size: 0.7rem;
+    padding: 5px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+}
+
+.small-action-btn:hover {
+    background: #444;
+    color: #fff;
+}
+
+.small-action-btn.delete:hover {
+    background: #4b0000;
+}
+
+.star-btn {
+    background: none !important;
+    border: none !important;
+    font-size: 1.2rem; /* Немного уменьшим базовый размер */
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 0.4;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffd700; /* Золотистый цвет для звезды */
+}
+
+.star-btn:hover {
+    opacity: 1;
+    transform: scale(1.1); /* Было 1.2, теперь 1.1 — будет аккуратнее */
+}
+
+/* Фикс наслоения: если звезда внутри карточки My Builds */
+.fav-form {
+    position: absolute;
+    top: 5px;   /* Прижмем повыше */
+    right: 5px; /* Прижмем к самому углу */
+    z-index: 5; /* Сделаем чуть ниже основных модалок, но выше фона */
 }

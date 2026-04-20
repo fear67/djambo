@@ -54,6 +54,10 @@
                         {% csrf_token %}
                         <button type="submit" class="actions">Заказать</button>
                     </form>
+                    <form action="{% url 'delete_order' order.id %}" method="POST">
+                    {% csrf_token %}
+                        <button type="submit" class="small-action-btn delete" onclick="return confirm('Убрать из корзины?')">✖</button>
+                    </form>
                 </div>
             {% empty %}
                 <div class="empty-state">
@@ -64,6 +68,12 @@
                     </div>
                 </div>
             {% endfor %}
+            {% if cart_orders %}
+                <div class="cart-total" style="margin-top: 2rem; text-align: right; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+                    <p style="font-size: 0.9rem; color: #666; text-transform: uppercase; letter-spacing: 1px;">Итого к оформлению:</p>
+                    <h2 style="font-size: 2rem; color: #ccc; font-weight: 300;">{{ total_cart_price }} ₽</h2>
+                </div>
+            {% endif %}
         </div>
     </div>
 
@@ -88,6 +98,32 @@
             {% endif %}
         </div>
 
+    <h1 class="thin-title align-right" style="margin-top: 4rem;">Избранное</h1>
+    <div class="transparent-block favorite-section">
+        {% for order in favorite_orders %}
+            <div class="mini-order-card no-bg">
+                <div class="mini-info">
+                    <h3>{{ order.build.title }}</h3>
+                    <div class="flex" style="gap: 10px; justify-content: flex-end; margin-top: 5px;">
+                        <form action="{% url 'add_to_cart' order.build.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="small-action-btn">В корзину</button>
+                        </form>
+                        <form action="{% url 'delete_order' order.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="small-action-btn delete">✖</button>
+                        </form>
+                    </div>
+                </div>
+                {% if order.build.main_photo %}
+                    <img src="{{ order.build.main_photo.url }}" class="mini-img">
+                {% endif %}
+            </div>
+        {% empty %}
+            <p class="empty-text-small">В избранном пока пусто</p>
+        {% endfor %}
+    </div>
+
         <h1 class="thin-title align-right separator">История</h1>
         <div class="transparent-block">
             {% for order in completed_orders %}
@@ -104,6 +140,12 @@
             {% empty %}
                 <p class="empty-text-small">История покупок пуста</p>
             {% endfor %}
+            {% if completed_orders %}
+                <div class="history-total" style="margin-top: 3rem; text-align: right; opacity: 0.6;">
+                    <p style="font-size: 0.8rem; text-transform: uppercase; color: #555;">Всего выкуплено на сумму:</p>
+                    <h2 style="font-size: 1.5rem; font-weight: 300; color: #888;">{{ total_spent }} ₽</h2>
+                </div>
+            {% endif %}
         </div>
     </div>
 </main>

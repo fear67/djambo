@@ -210,16 +210,22 @@ def edit_build(request, build_id):
 @login_required
 def orders_view(request):
     all_orders = Order.objects.filter(user=request.user).select_related('build').order_by('-created_at')
+    
     cart_orders = all_orders.filter(status='cart')
+    completed_orders = all_orders.filter(status='done')
 
     total_cart_price = sum(order.build.get_total_price() for order in cart_orders)
+    
+    total_spent = sum(order.build.get_total_price() for order in completed_orders)
 
     context = {
-        'cart_orders': cart_orders,
+        'cart_orders': all_orders.filter(status='cart'),
+        'favorite_orders': all_orders.filter(status='favorite'), # Новое!
         'pending_orders': all_orders.filter(status='pending'),
         'shipped_orders': all_orders.filter(status='shipped'),
         'completed_orders': all_orders.filter(status='done'),
-        'total_cart_price': total_cart_price, # Передаем сумму в шаблон
+        'total_cart_price': sum(o.build.get_total_price() for o in all_orders.filter(status='cart')),
+        'total_spent': sum(o.build.get_total_price() for o in all_orders.filter(status='done')),
     }
     return render(request, 'conputer/orders.html', context)
 
@@ -241,4 +247,43 @@ def add_to_cart(request, build_id):
         # Создаем заказ. Если хочешь, чтобы одну и ту же сборку нельзя было 
         # добавить в корзину дважды, используй get_or_create
         Order.objects.get_or_create(user=request.user, build=build, status='cart')
+    return redirect('orders_view')
+
+@login_required
+def move_to_cart(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user, status='favorite')
+    order.status = 'cart'
+    order.save()
+    return redirect('orders_view')
+
+
+@login_required
+def add_to_favorites(request, build_id):
+    if request.method == 'POST':
+        build = get_object_or_404(PCBuild, id=build_id)
+        # Используем get_or_create, чтобы не плодить дубликаты одной и той же сборки
+        Order.objects.get_or_create(
+            user=request.user, 
+            build=build, 
+            status='favorite'
+        )
+    # Возвращаем пользователя туда, откуда он пришел
+    return redirect(request.META.get('HTTP_REFERER', 'orders_view'))
+
+
+@login_required
+def delete_order(request, order_id):
+    if request.method == 'POST':
+        # Ищем заказ именно этого пользователя
+        order = get_object_or_404(Order, id=order_id, user=request.user)
+        order.delete()
+    return redirect('orders_view')
+
+@login_required
+def delete_order(request, order_id):
+    if request.method == 'POST':
+        # Безопасность: ищем заказ по ID И по текущему юзеру
+        order = get_object_or_404(Order, id=order_id, user=request.user)
+        order.delete()
+    # Возвращаемся на ту же страницу заказов
     return redirect('orders_view')

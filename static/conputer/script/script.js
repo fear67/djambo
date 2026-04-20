@@ -86,30 +86,31 @@ document.addEventListener('click', function (e) {
 
     const startbuild = e.target.closest('.js-start-build');
     if (startbuild) {
-        // 1. Очищаем старую сборку, чтобы начать с чистого листа
         localStorage.clear();
 
-        // 2. Достаем данные компонента
         const id = e.target.getAttribute('data-id');
         const name = e.target.getAttribute('data-name');
-        let field = e.target.getAttribute('data-field');
+        const cat = e.target.getAttribute('data-field');
 
-        // 3. Маппинг категорий (превращаем "Видеокарты" в "gpu" и т.д.)
+        console.log("Добавляю:", cat, name, id); // Проверь это в консоли F12!
+
         const categoryToField = {
-            'Процессоры': 'cpu',
+            'Процессор': 'cpu',
             'Видеокарта': 'gpu',
             'Материнская плата': 'motherboard',
-            // Добавь остальные свои категории
+            'Оперативная память': 'ram',
+            'Блок питания': 'powerSupply',
+            'Корпус': 'case',
+            'Накопитель': 'storage_primary',
+            'Кулер для процессора': 'cooller',       // Исправил под модель
+            'Корпусный вентилятор': 'coollerCase'   // Добавил, чтобы вентиляторы тоже работали
         };
 
-        const fieldName = categoryToField[field] || field;
-
-        // 4. Записываем в localStorage
+        const fieldName = categoryToField[cat] || cat;
         localStorage.setItem('build_' + fieldName, id);
         localStorage.setItem('name_' + fieldName, name);
 
-        // 5. Перекидываем на страницу конфигуратора
-        window.location.href = '/building/'; // Укажи свой URL конфигуратора
+        window.location.href = '/building/';
     }
 });
 
@@ -138,27 +139,27 @@ document.addEventListener('input', function (e) {
 });
 
 function restoreBuildData() {
-    const fields = ['title', 'user_name', 'cpu', 'gpu', 'motherboard', 'ram', 'powerSupply', 'case', 'storage_primary', 'storage_second', 'cooller', 'coollerCase'];
+    const fields = ['cpu', 'gpu', 'motherboard', 'ram', 'powerSupply', 'case', 'storage_primary', 'storage_second', 'cooller', 'coollerCase'];
     
     fields.forEach(field => {
         const select = document.querySelector(`select[name="${field}"]`);
         const displayVal = document.getElementById('val-' + field);
         
-        // 1. Пытаемся взять данные из localStorage (для новой сборки)
+        // 1. Берем ID из памяти (который записала кнопка "Добавить в сборку")
         let savedId = localStorage.getItem('build_' + field);
         let savedName = localStorage.getItem('name_' + field);
 
-        // 2. ЕСЛИ В ПАМЯТИ ПУСТО (значит мы редактируем старую сборку)
-        // Берем то, что Django подставил в select через instance
-        if (!savedId && select && select.value) {
-            savedId = select.value;
-            // Берем название прямо из выбранного варианта в select
-            savedName = select.options[select.selectedIndex].text;
-        }
-
+        // 2. Если в памяти есть данные — ПРИНУДИТЕЛЬНО вставляем их в форму
         if (savedId && select) {
             select.value = savedId;
-            if (displayVal && savedName) displayVal.textContent = savedName;
+            if (displayVal && savedName) {
+                displayVal.textContent = savedName;
+            }
+        } 
+        // 3. Если в памяти пусто, но мы в режиме редактирования (Django заполнил форму)
+        else if (!savedId && select && select.value) {
+            savedName = select.options[select.selectedIndex].text;
+            if (displayVal) displayVal.textContent = savedName;
         }
     });
 }
