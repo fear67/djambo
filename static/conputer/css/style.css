@@ -733,3 +733,28 @@ html {
     cursor: pointer;
     max-height: 40px;
 }
+
+.gridmybuilds{
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); 
+}
+
+.mybuild{
+    display: flex;
+    flex: 0;
+}
+
+.fixw{
+    max-width: 150px;
+    flex: 1;
+}
+
+#infomybuild{
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.delete{
+    background: none;
+    background-color: rgb(255, 0, 0);
+    color: #ffffff;
+}

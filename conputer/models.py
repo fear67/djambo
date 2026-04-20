@@ -103,7 +103,7 @@ class PCBuild(models.Model):
         on_delete=models.SET_NULL, 
         related_name="build_cpu", 
         verbose_name="Процессор",
-        limit_choices_to={'category__name__iexact': 'Процессоры'},
+        limit_choices_to={'category__name__iexact': 'Процессор'},
         null=True, 
         blank=True
     )
@@ -187,7 +187,7 @@ class PCBuild(models.Model):
         on_delete=models.SET_NULL, 
         related_name="build_cooller", 
         verbose_name="Кулер для процессора",
-        limit_choices_to={'category__name__iexact': 'Куллер для процессора'},
+        limit_choices_to={'category__name__iexact': 'Кулер для процессора'},
         null=True, 
         blank=True
     )
@@ -244,3 +244,19 @@ class PCBuild(models.Model):
     def __str__(self):
         return f"{self.title} от {self.author.username}"
     
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('cart', 'В корзине'),
+        ('pending', 'Оформлен'),
+        ('shipped', 'В пути'),
+        ('done', 'Завершен'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Покупатель")
+    build = models.ForeignKey(PCBuild, on_delete=models.CASCADE, verbose_name="Сборка")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='cart')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Заказ {self.id} — {self.user.username} ({self.get_status_display()})"

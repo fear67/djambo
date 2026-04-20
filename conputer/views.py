@@ -9,6 +9,7 @@ from .forms import PCBuildForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.shortcuts import render, redirect, get_object_or_404
 
 def component_list(request):
     allowed_sort = ['price', '-price', 'name', 'id']
@@ -164,3 +165,44 @@ def mybuilds(request):
     # Фильтруем сборки по текущему юзеру
     user_builds = PCBuild.objects.filter(author=request.user).order_by('-id')
     return render(request, 'conputer/mybuilds.html', {'builds': user_builds})
+
+
+
+@login_required
+def toggle_publish(request, build_id):
+    if request.method == 'POST':
+        build = get_object_or_404(PCBuild, id=build_id, author=request.user)
+    
+        build.is_published = not build.is_published
+        
+        build.save()
+        
+    return redirect('mybuilds')
+
+@login_required
+def delete_build(request, build_id):
+    if request.method == 'POST':
+        build = get_object_or_404(PCBuild, id=build_id, author=request.user)
+        build.delete() # Самое главное действие
+    return redirect('mybuilds')
+
+
+@login_required
+def edit_build(request, build_id):
+    build = get_object_or_404(PCBuild, id=build_id, author=request.user)
+
+    if request.method == 'POST':
+        form = PCBuildForm(request.POST, request.FILES, instance=build)
+        if form.is_valid():
+            form.save()
+            return redirect('mybuilds')
+    else:
+        form = PCBuildForm(instance=build)
+
+    all_components = Component.objects.all()
+    
+    return render(request, 'conputer/building.html', {
+        'form': form,
+        'all_components': all_components,
+        'edit_mode': True # Флажок для заголовка
+    })

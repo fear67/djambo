@@ -36,45 +36,83 @@
         </nav>
     </header>
 <main>
-    <h2 style="margin: 2rem; text-align: center;">Мои сборки</h2>
-    <div class="gridComponents">
+    <div class="gridComponents gridmybuilds">
         {% for build in builds %}
-            <div class="component_box">
-                <div class="flex" style="flex-direction: column; align-items: center;">
+            <div class="component_box mybuild">
+                <div class="flex" id="infomybuild">
                     {% if build.main_photo %}
-                        <img src="{{ build.main_photo.url }}" class="img_component" style="width: 100%; height: 150px; object-fit: cover;">
+                        <img src="{{ build.main_photo.url }}" class="img_component">
                     {% else %}
-                        <div class="img_component" style="width: 100%; height: 150px; background: #222; display: flex; align-items: center; justify-content: center;">Нет фото</div>
+                        <div class="img_component">Нет фото</div>
                     {% endif %}
-                    <h2 style="margin-top: 10px;">{{ build.title }}</h2>
-                    <p style="font-size: 0.7rem; color: {% if build.is_published %}#00ff88{% else %}#ff4d4d{% endif %};">
-                        {{ build.is_published|yesno:"Опубликовано,Черновик" }}
-                    </p>
+                    <div>
+                        <h2>{{ build.title }}</h2>
+                        <p>{{ build.is_published|yesno:"Опубликовано,Черновик" }}</p>
+                    </div>
+                    <div class="spacer"></div>
+                    <a href="{% url 'edit_build' build.id %}" class="action">Изменить</a>
                 </div>
 
-                <div class="componentActions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 15px;">
-                    <button class="actions info_btn" data-modal="modal-{{ build.id }}">Инфо</button>
+                <div class="componentActions">
+                    <button class="actions info_btn fixw" data-modal="build-modal-{{ build.id }}">Инфо</button>
                     
-                    <a href="" class="actions" style="background-color: #333; display: flex; align-items: center; justify-content: center;">Изменить</a>
                     
-                    <!-- Опубликовать/Скрыть -->
-                    <form action="" method="POST" style="width: 100%;">
+                    <form action="{% url 'toggle_publish' build.id %}" method="POST">
                         {% csrf_token %}
-                        <button type="submit" class="actions" style="width: 100%; background-color: #004d40;">
+                        <button type="submit" class="actions fixw">
                             {{ build.is_published|yesno:"Скрыть,Опубликовать" }}
                         </button>
                     </form>
-
-                    <!-- Удалить -->
-                    <form action="" method="POST" style="width: 100%;" onsubmit="return confirm('Удалить сборку?')">
+                    <div class="spacer"></div>
+                    <form action="{% url 'delete_build' build.id %}" method="POST" onsubmit="return confirm('Удалить сборку?')">
                         {% csrf_token %}
-                        <button type="submit" class="actions" style="background-color: #4b0000; width: 100%;">Удалить</button>
+                        <button type="submit" class="actions fixw delete">Удалить</button>
                     </form>
                 </div>
             </div>
             
-            <!-- Не забудь вставить сюда код твоего модального окна для "Инфо" -->
+<div id="build-modal-{{ build.id }}" class="modal-overlay" onclick="closeModal(this)">
+    <div class="modal-content build-modal-content" onclick="event.stopPropagation()">
+        <span class="close" onclick="closeModal(this.closest('.modal-overlay'))">&times;</span>
+        
+        <h2 class="modal-title">{{ build.title }}</h2>
+        <p>Автор: {{ build.author.username }}</p>
+        <hr class="modal-hr">
+
+        <div class="specs-grid">
+            <div class="spec-item"><span>Процессор:</span> <strong>{{ build.cpu.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Видеокарта:</span> <strong>{{ build.gpu.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Материнка:</span> <strong>{{ build.motherboard.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Память:</span> <strong>{{ build.ram.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Блок питания:</span> <strong>{{ build.powerSupply.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Корпус:</span> <strong>{{ build.case.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Накопитель 1:</span> <strong>{{ build.storage_primary.name|default:"—" }} ({{ build.storage_primary_quantity }} шт.)</strong></div>
+            <div class="spec-item"><span>Накопитель 2:</span> <strong>{{ build.storage_second.name|default:"—" }} ({{ build.storage_second_quantity }} шт.)</strong></div>
+            <div class="spec-item"><span>Кулер:</span> <strong>{{ build.cooller.name|default:"—" }} </strong></div>
+            <div class="spec-item"><span>Охлаждение корпуса:</span> <strong>{{ build.coollerCase.name|default:"—" }} ({{ build.coollerCase_quantity }} шт.)</strong></div>
+        </div>
+
+        <div class="modal-price">
+            Итоговая стоимость: <span>{{ build.get_total_price }} ₽</span>
+        </div>
+    </div>
+</div>
+
         {% endfor %}
     </div>
 </main>
+
+<footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>PC SHOP CONPUTER</h2>
+               <p>© 2026 Все права защищены</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="{% url 'home' %}">Каталог</a></li>
+                <li><a href="{% url 'build_list' %}">Сборки</a></li>
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </div>
+    </footer>
 </body>

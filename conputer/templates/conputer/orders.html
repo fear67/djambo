@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои сборки | Conputer</title>
+    <link rel="stylesheet" href="{% static 'conputer/css/style.css' %}">
+    <script src="{% static 'conputer/script/script.js' %}" defer></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar" id="id1">
+            <h1>PC SHOP CONPUTER</h1>
+            <li class="navbar">
+                <ul><a href="{% url 'home' %}">Home</a></ul>
+                <ul><a href="{% url 'building' %}">Configurator</a></ul>
+                <ul><a href="{% url 'build_list' %}">Community</a></ul>
+                <ul><a href="{% url 'mybuilds' %}">My builds</a></ul>
+                <ul><a href="#">Order</a></ul>
+            </li>
+            <div class="flex">
+            {% if user.is_authenticated %}
+                <button class="autoris">{{ user.username }}</button>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="autoris">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="autoris" id="regact">Log in</a>
+                <a href="{% url 'signup' %}" class="autoris" id="regact">Sign Up</a>
+            {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+               <h2>PC SHOP CONPUTER</h2>
+                <p>© 2024 Все права защищены</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="{% url 'home' %}">Каталог</a></li>
+                <li><a href="{% url 'build_list' %}">Сборки</a></li>
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>

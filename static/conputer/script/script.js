@@ -74,6 +74,43 @@ document.addEventListener('click', function (e) {
             alert("Сначала выберите категорию (кнопку) слева!");
         }
     }
+
+    const clear = e.target.closest('.clearBuild');
+    if (clear) {
+        if (confirm('Вы уверены, что хотите выполнить это действие?')) {
+            localStorage.clear();
+            e.preventDefault(); 
+            window.location.href = window.location.pathname; 
+        }
+    }
+
+    const startbuild = e.target.closest('.js-start-build');
+    if (startbuild) {
+        // 1. Очищаем старую сборку, чтобы начать с чистого листа
+        localStorage.clear();
+
+        // 2. Достаем данные компонента
+        const id = e.target.getAttribute('data-id');
+        const name = e.target.getAttribute('data-name');
+        let field = e.target.getAttribute('data-field');
+
+        // 3. Маппинг категорий (превращаем "Видеокарты" в "gpu" и т.д.)
+        const categoryToField = {
+            'Процессоры': 'cpu',
+            'Видеокарта': 'gpu',
+            'Материнская плата': 'motherboard',
+            // Добавь остальные свои категории
+        };
+
+        const fieldName = categoryToField[field] || field;
+
+        // 4. Записываем в localStorage
+        localStorage.setItem('build_' + fieldName, id);
+        localStorage.setItem('name_' + fieldName, name);
+
+        // 5. Перекидываем на страницу конфигуратора
+        window.location.href = '/building/'; // Укажи свой URL конфигуратора
+    }
 });
 
 function updateFilters(key, value) {
@@ -104,17 +141,24 @@ function restoreBuildData() {
     const fields = ['title', 'user_name', 'cpu', 'gpu', 'motherboard', 'ram', 'powerSupply', 'case', 'storage_primary', 'storage_second', 'cooller', 'coollerCase'];
     
     fields.forEach(field => {
-        const savedValue = localStorage.getItem('build_' + field);
-        const savedName = localStorage.getItem('name_' + field);
+        const select = document.querySelector(`select[name="${field}"]`);
+        const displayVal = document.getElementById('val-' + field);
         
-        const element = document.querySelector(`[name="${field}"]`);
-        if (element && savedValue) {
-            element.value = savedValue;
+        // 1. Пытаемся взять данные из localStorage (для новой сборки)
+        let savedId = localStorage.getItem('build_' + field);
+        let savedName = localStorage.getItem('name_' + field);
+
+        // 2. ЕСЛИ В ПАМЯТИ ПУСТО (значит мы редактируем старую сборку)
+        // Берем то, что Django подставил в select через instance
+        if (!savedId && select && select.value) {
+            savedId = select.value;
+            // Берем название прямо из выбранного варианта в select
+            savedName = select.options[select.selectedIndex].text;
         }
 
-        const displayVal = document.getElementById('val-' + field);
-        if (displayVal && savedName) {
-            displayVal.textContent = savedName;
+        if (savedId && select) {
+            select.value = savedId;
+            if (displayVal && savedName) displayVal.textContent = savedName;
         }
     });
 }
@@ -140,4 +184,5 @@ function previewImage(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
 

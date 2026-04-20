@@ -64,6 +64,7 @@
 
         <div class="gridComponents buildsGrid"> 
             {% for build in builds %}
+            {% if build.is_published %}
             <div class="component_box" id="build-{{ build.id }}">
                 <div class="flex">
                     {% if build.main_photo %}
@@ -114,7 +115,9 @@
             <div class="spec-item"><span>Блок питания:</span> <strong>{{ build.powerSupply.name|default:"—" }}</strong></div>
             <div class="spec-item"><span>Корпус:</span> <strong>{{ build.case.name|default:"—" }}</strong></div>
             <div class="spec-item"><span>Накопитель 1:</span> <strong>{{ build.storage_primary.name|default:"—" }} ({{ build.storage_primary_quantity }} шт.)</strong></div>
-            <div class="spec-item"><span>Кулер:</span> <strong>{{ build.cooller.name|default:"—" }}</strong></div>
+            <div class="spec-item"><span>Накопитель 2:</span> <strong>{{ build.storage_second.name|default:"—" }} ({{ build.storage_second_quantity }} шт.)</strong></div>
+            <div class="spec-item"><span>Кулер:</span> <strong>{{ build.cooller.name|default:"—" }} </strong></div>
+            <div class="spec-item"><span>Охлаждение корпуса:</span> <strong>{{ build.coollerCase.name|default:"—" }} ({{ build.coollerCase_quantity }} шт.)</strong></div>
         </div>
 
         <div class="modal-price">
@@ -123,7 +126,7 @@
     </div>
 </div>
 
-            
+            {% endif %}
             {% endfor %}
         </div>
         </div>

@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from conputer import views
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.component_list, name='home'),
@@ -30,8 +31,10 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('signup/', views.signup, name='signup'),
     path('mybuilds/', views.mybuilds, name='mybuilds'),  
-    # path('toggle-publish/<int:build_id>/', views.toggle_publish, name='toggle_publish'),
-    # path('delete-build/<int:build_id>/', views.delete_build, name='delete_build'),
+    path('toggle-publish/<int:build_id>/', views.toggle_publish, name='toggle_publish'),
+    path('delete-build/<int:build_id>/', views.delete_build, name='delete_build'),
+    path('edit/<int:build_id>/', views.edit_build, name='edit_build'),
+    
 ]
 
 if settings.DEBUG: urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

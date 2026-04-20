@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Component, Component_category, Brand, PCBuild
+from .models import Component, Component_category, Brand, PCBuild, Order
 
 @admin.register(Component)
 class ComponentAdmin(admin.ModelAdmin):
@@ -78,7 +78,7 @@ class PCBuildAdmin(admin.ModelAdmin):
         'fields': ('cooller', ('coollerCase', 'coollerCase_quantity'))
     }),
     ('Итоги', {
-        'fields': ('display_total_price',),
+        'fields': ('display_total_price','is_published'),
     }),
 )
 
@@ -92,3 +92,32 @@ class PCBuildAdmin(admin.ModelAdmin):
         return f"{obj.get_total_price()} руб."
     
     display_total_price.short_description = "Итоговая стоимость"
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    # Что отображаем в списке
+    list_display = ['id', 'user', 'get_build_title', 'get_total_price', 'status', 'created_at']
+    
+    # По каким полям можно фильтровать (справа в админке)
+    list_filter = ['status', 'created_at', 'user']
+    
+    # По каким полям работает поиск
+    search_fields = ['user__username', 'build__title', 'id']
+    
+    # Возможность менять статус прямо из списка (не заходя внутрь заказа)
+    list_editable = ['status']
+
+    # Выводим название сборки
+    def get_build_title(self, obj):
+        return obj.build.title
+    get_build_title.short_description = 'Сборка'
+
+    # Выводим итоговую цену сборки, которая привязана к заказу
+    def get_total_price(self, obj):
+        # Вызываем твой метод расчета цены из модели PCBuild
+        return f"{obj.build.get_total_price()} ₽"
+    get_total_price.short_description = 'Сумма заказа'
+
+    # Чтобы админка не тормозила при большом количестве данных
+    raw_id_fields = ['user', 'build']
