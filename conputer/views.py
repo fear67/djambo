@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Q, Sum, F, ExpressionWrapper
 from django.contrib import messages
-from .models import Component, Component_category, Brand, PCBuild 
+from .models import Component, Component_category, Brand, PCBuild, Order
 from django.db.models.functions import Coalesce
 from django.db import models
 from django.shortcuts import redirect
@@ -206,3 +206,39 @@ def edit_build(request, build_id):
         'all_components': all_components,
         'edit_mode': True # Флажок для заголовка
     })
+
+@login_required
+def orders_view(request):
+    all_orders = Order.objects.filter(user=request.user).select_related('build').order_by('-created_at')
+    cart_orders = all_orders.filter(status='cart')
+
+    total_cart_price = sum(order.build.get_total_price() for order in cart_orders)
+
+    context = {
+        'cart_orders': cart_orders,
+        'pending_orders': all_orders.filter(status='pending'),
+        'shipped_orders': all_orders.filter(status='shipped'),
+        'completed_orders': all_orders.filter(status='done'),
+        'total_cart_price': total_cart_price, # Передаем сумму в шаблон
+    }
+    return render(request, 'conputer/orders.html', context)
+
+@login_required
+def checkout_order(request, order_id):
+    if request.method == 'POST':
+        # Находим заказ именно этого юзера в корзине
+        order = get_object_or_404(Order, id=order_id, user=request.user, status='cart')
+        # Меняем статус на "Оформлен"
+        order.status = 'pending'
+        order.save()
+    return redirect('orders_view')
+
+
+@login_required
+def add_to_cart(request, build_id):
+    if request.method == 'POST':
+        build = get_object_or_404(PCBuild, id=build_id)
+        # Создаем заказ. Если хочешь, чтобы одну и ту же сборку нельзя было 
+        # добавить в корзину дважды, используй get_or_create
+        Order.objects.get_or_create(user=request.user, build=build, status='cart')
+    return redirect('orders_view')

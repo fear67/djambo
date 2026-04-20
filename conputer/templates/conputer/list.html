@@ -22,7 +22,7 @@
                 <ul><a href="{% url 'building' %}">Configurator</a></ul>
                 <ul><a href="{% url 'build_list' %}">Community</a></ul>
                 <ul><a href="{% url 'mybuilds' %}">My builds</a></ul>
-                <ul><a href="#">Order</a></ul>
+                <ul><a href="{% url 'orders_view' %}">Order</a></ul>
             </li>
             <div class="flex">
             {% if user.is_authenticated %}

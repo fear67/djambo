@@ -257,6 +257,6 @@ class Order(models.Model):
     build = models.ForeignKey(PCBuild, on_delete=models.CASCADE, verbose_name="Сборка")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='cart')
     created_at = models.DateTimeField(auto_now_add=True)
-
+    delivery_date = models.DateField(null=True, blank=True, verbose_name="Дата доставки")
     def __str__(self):
         return f"Заказ {self.id} — {self.user.username} ({self.get_status_display()})"

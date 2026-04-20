@@ -19,7 +19,7 @@
                 <ul><a href="{% url 'building' %}">Configurator</a></ul>
                 <ul><a href="{% url 'build_list' %}">Community</a></ul>
                 <ul><a href="{% url 'mybuilds' %}">My builds</a></ul>
-                <ul><a href="#">Order</a></ul>
+                <ul><a href="{% url 'orders_view' %}">Order</a></ul>
             </li>
             <div class="flex">
             {% if user.is_authenticated %}
@@ -61,6 +61,12 @@
                         {% csrf_token %}
                         <button type="submit" class="actions fixw">
                             {{ build.is_published|yesno:"Скрыть,Опубликовать" }}
+                        </button>
+                    </form>
+                    <form action="{% url 'add_to_cart' build.id %}" method="POST" style="flex: 1;">
+                    {% csrf_token %}
+                        <button type="submit" class="actions order_btn" style="background-color: #004d40 ; width: 100%;">
+                            В корзину
                         </button>
                     </form>
                     <div class="spacer"></div>

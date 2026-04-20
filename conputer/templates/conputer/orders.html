@@ -19,7 +19,7 @@
                 <ul><a href="{% url 'building' %}">Configurator</a></ul>
                 <ul><a href="{% url 'build_list' %}">Community</a></ul>
                 <ul><a href="{% url 'mybuilds' %}">My builds</a></ul>
-                <ul><a href="#">Order</a></ul>
+                <ul><a href="{% url 'orders_view' %}">Order</a></ul>
             </li>
             <div class="flex">
             {% if user.is_authenticated %}
@@ -35,6 +35,78 @@
             </div>
         </nav>
     </header>
+
+<main class="orders-layout">
+    
+    <div class="col-left">
+        <h1 class="thin-title">Корзина</h1>
+        <div class="cart-glass-panel">
+            {% for order in cart_orders %}
+                <div class="mini-order-card">
+                    {% if order.build.main_photo %}
+                        <img src="{{ order.build.main_photo.url }}" class="mini-img">
+                    {% endif %}
+                    <div class="mini-info">
+                        <h3>{{ order.build.title }}</h3>
+                        <p class="price">{{ order.build.get_total_price }} ₽</p>
+                    </div>
+                    <form action="{% url 'checkout_order' order.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="actions">Заказать</button>
+                    </form>
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <p>Вы пока ничего не добавили в корзину</p>
+                    <div class="empty-actions">
+                        <a href="{% url 'build_list' %}" class="actions">Сборки сообщества</a>
+                        <a href="{% url 'mybuilds' %}" class="actions secondary">Мои сборки</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-right">
+        <h1 class="thin-title align-right">Активные</h1>
+        <div class="transparent-block">
+            {% for order in pending_orders %}
+                <div class="mini-order-card no-bg">
+                    {% if order.build.main_photo %}
+                        <img src="{{ order.build.main_photo.url }}" class="mini-img">
+                    {% endif %}
+                    <div class="mini-info">
+                        <h3>{{ order.build.title }}</h3>
+                        <p class="small-text">Заказан: {{ order.created_at|date:"d.m.y" }}</p>
+                        <p class="status-label">Обработка</p>
+                        <p class="price-small">{{ order.build.get_total_price }} ₽</p>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if not pending_orders and not shipped_orders %}
+                <p class="empty-text-small">У вас нет активных заказов</p>
+            {% endif %}
+        </div>
+
+        <h1 class="thin-title align-right separator">История</h1>
+        <div class="transparent-block">
+            {% for order in completed_orders %}
+                <div class="mini-order-card no-bg">
+                    {% if order.build.main_photo %}
+                        <img src="{{ order.build.main_photo.url }}" class="mini-img gray">
+                    {% endif %}
+                    <div class="mini-info">
+                        <h3>{{ order.build.title }}</h3>
+                        <p class="small-text">Доставка: {{ order.delivery_date|date:"d.m.y"|default:"--" }}</p>
+                        <p class="price-small">{{ order.build.get_total_price }} ₽</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="empty-text-small">История покупок пуста</p>
+            {% endfor %}
+        </div>
+    </div>
+</main>
 
     <footer class="footer">
         <div class="footer-content">

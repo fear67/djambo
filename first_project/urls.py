@@ -34,7 +34,10 @@ urlpatterns = [
     path('toggle-publish/<int:build_id>/', views.toggle_publish, name='toggle_publish'),
     path('delete-build/<int:build_id>/', views.delete_build, name='delete_build'),
     path('edit/<int:build_id>/', views.edit_build, name='edit_build'),
-    
+    path('mybuilds/', views.mybuilds, name='mybuilds'),  
+    path('orders/', views.orders_view, name='orders_view'),
+    path('checkout/<int:order_id>/', views.checkout_order, name='checkout_order'),
+    path('add-to-cart/<int:build_id>/', views.add_to_cart, name='add_to_cart'),
 ]
 
 if settings.DEBUG: urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
