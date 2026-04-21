@@ -133,5 +133,6 @@ ALLOWED_HOSTS = ['*']
 
 csrf_trusted_origins = [
     'https://*.railway.app',
-    'https://*.up.railway.app'
+    'https://*.up.railway.app',
+    'https://djambo-production.up.railway.app'
 ]
