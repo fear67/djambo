@@ -69,9 +69,22 @@ if (card) {
             // 3. Запускаем пересчет суммы сразу после выбора
             calculateTotal(); 
         }
+        const previewUrl = card.getAttribute('data-preview'); // 1. Получили URL
+
+        if (previewUrl) {
+            localStorage.setItem('preview_' + fieldName, previewUrl); // 2. Записали в память
+    
+             const layer = document.getElementById('view-' + fieldName);
+            if (layer) {
+                layer.src = previewUrl; // 3. Обновили источник у картинки
+            }
+        }
+
+        updateVisualizer(); 
     } else {
         alert("Сначала выберите категорию (кнопку) слева!");
     }
+
 }
 
     const clear = e.target.closest('.clearBuild');
@@ -91,7 +104,7 @@ if (card) {
         const name = e.target.getAttribute('data-name');
         const cat = e.target.getAttribute('data-field');
 
-        console.log("Добавляю:", cat, name, id); // Проверь это в консоли F12!
+        console.log("Клик по категории:", cat);
 
         const categoryToField = {
             'Процессор': 'cpu',
@@ -205,3 +218,53 @@ function calculateTotal() {
 }
 
 window.addEventListener('load', calculateTotal);
+
+window.addEventListener('load', function() {
+    updateVisualizer(); // Запускаем подгрузку и проверку визуализатора
+});
+
+function updateVisualizer() {
+    const fields = ['case', 'motherboard', 'gpu', 'cooller'];
+    
+    fields.forEach(f => {
+        const layer = document.getElementById('view-' + f);
+        // Если в памяти есть картинка для этого слоя, ставим её
+        const savedPreview = localStorage.getItem('preview_' + f);
+        if (layer && savedPreview) {
+            layer.src = savedPreview;
+        }
+    });
+    // 1. Проверяем наличие корпуса
+    const caseId = localStorage.getItem('build_case');
+    const mboardId = localStorage.getItem('build_motherboard');
+    
+    const scene = document.getElementById('scene');
+    const hint = document.getElementById('visualizer-hint');
+
+    if (!caseId) {
+        scene.classList.add('hidden');
+        hint.style.display = 'block';
+        return; // Если корпуса нет, дальше не идем
+    }
+
+    // Если корпус есть — показываем сцену
+    scene.classList.remove('hidden');
+    hint.style.display = 'none';
+
+    // 2. Проверяем материнку для отображения GPU и Кулера
+    const gpuLayer = document.getElementById('view-gpu');
+    const coollerLayer = document.getElementById('view-cooller');
+    const mboardLayer = document.getElementById('view-motherboard');
+
+    if (!mboardId) {
+        // Если материнки нет — скрываем её саму и всё, что на ней крепится
+        mboardLayer.classList.add('hidden');
+        gpuLayer.classList.add('hidden');
+        coollerLayer.classList.add('hidden');
+    } else {
+        mboardLayer.classList.remove('hidden');
+        // А вот GPU и Кулер покажем только если они выбраны в localStorage
+        if (localStorage.getItem('build_gpu')) gpuLayer.classList.remove('hidden');
+        if (localStorage.getItem('build_cooller')) coollerLayer.classList.remove('hidden');
+    }
+}

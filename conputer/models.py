@@ -75,6 +75,14 @@ class Component(models.Model):
         default=0
     )
 
+    preview_image = models.FileField(
+        upload_to='previews/',
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'svg'])],
+        verbose_name="Картинка для превью (PNG/SVG)",
+        null=True,
+        blank=True
+    )
+
     class Meta:
         verbose_name = "Компонент",
         verbose_name_plural = "Компоненты"

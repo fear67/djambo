@@ -5,7 +5,7 @@ from .models import Component, Component_category, Brand, PCBuild, Order
 @admin.register(Component)
 class ComponentAdmin(admin.ModelAdmin):
 
-    list_display = ['name', 'description', 'brand','category','get_image', 'price']
+    list_display = ['name', 'description', 'brand','category','get_image', 'price', 'get_preview_photo']
 
     search_fields = ['name','description','brand__name','category__name']
 
@@ -19,8 +19,13 @@ class ComponentAdmin(admin.ModelAdmin):
         if obj.img:
             return mark_safe(f'<img src="{obj.img.url}" width="50" height="50" style="object-fit: cover; border-radius: 5px;">')
         return "Нет фото"
-
     get_image.short_description = "Превью"
+
+    def get_preview_photo(self, obj):
+        if obj.preview_image:
+            return mark_safe(f'<img src="{obj.preview_image.url}" width="50" style="border-radius:5px;">')
+        return "Нет превью"
+    get_preview_photo.short_description = "Вид для сборки"   
 
 @admin.register(Component_category)
 class Component_categoryAdmin(admin.ModelAdmin):
