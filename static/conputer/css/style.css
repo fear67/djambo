@@ -162,7 +162,7 @@ h2{
     align-items: center;
     width: 100%;
     flex:1;
-
+    transition: 0.4s;
     position: relative;
     overflow: hidden;
     z-index: 0;
@@ -756,20 +756,13 @@ html {
 
 .delete{
     background: none;
-    background-color: rgb(255, 0, 0);
+    background-color: rgb(147, 0, 0);
     color: #ffffff;
 }
 
-
-
-
-
-
-
-
-
-
-
+.component_box:active{
+    transform: scale(1.05);
+}
 
 .orders-layout, .orders-layout * {
     font-family: sans-serif !important;
@@ -958,4 +951,85 @@ html {
     top: 5px;   /* Прижмем повыше */
     right: 5px; /* Прижмем к самому углу */
     z-index: 5; /* Сделаем чуть ниже основных модалок, но выше фона */
+}
+
+.default{
+    opacity: 0.5rem;
+}
+
+#pricelabel{
+    margin-left: 1rem;
+    font-size: 0.9rem ;
+    text-transform: uppercase ;
+    color: #666 ;
+}
+
+#total-price{
+    margin-top: 0.3rem;
+    margin-left: 1rem;
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+
+@media (max-width: 768px) {
+    /* 1. Главный контейнер (для Orders и Configurator) */
+    .orders-layout, 
+    .building {
+        flex-direction: column !important;
+        gap: 2rem !important;
+        padding: 10px !important;
+        margin-top: 1rem !important;
+    }
+
+    /* 2. Колонки в заказах и конфигураторе на всю ширину */
+    .col-left, 
+    .col-right,
+    .sidebar,
+    .main-build-area {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* 3. Заголовки (Orders) — убираем отзеркаливание вправо */
+    .thin-title.align-right {
+        text-align: left !important;
+        padding-right: 0 !important;
+    }
+
+    /* 4. Навигация (Header) — чтобы не ломалась */
+    .navbar {
+        justify-content: center !important;
+        height: auto !important;
+        padding: 1rem !important;
+    }
+
+    /* 5. Карточки в корзине (чтобы кнопки не вылезали) */
+    .mini-order-card {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+
+    .mini-info {
+        text-align: center !important;
+        width: 100% !important;
+    }
+
+    /* 6. Сетка товаров в каталоге */
+    .gridComponents {
+        grid-template-columns: 1fr !important; /* По одной карточке в ряд на узких экранах */
+        margin: 1rem !important;
+    }
+
+    /* 7. Уменьшаем гигантские шрифты */
+    .thin-title {
+        font-size: 1.5rem !important;
+    }
+
+    body {
+        /* Убираем градиент, ставим глубокий темный цвет из твоей палитры */
+        background: #1c002c !important; 
+        background-image: none !important;
+    }
 }

@@ -62,7 +62,7 @@
                         {% if item.img %}
                             <img src="{{ item.img.url }}" class="sortimg">
                         {% else %}
-                            <div style="width: 20px; height: 20px; color: #ffffff; margin-right: 20px;">Нет фото</div>
+                            <img src="{% static 'conputer/img/default.png' %}" class="img_component default">
                         {% endif %}
                     </div>
                 {% endfor %}
@@ -77,7 +77,7 @@
                     {% if item.img %}
                         <img src="{{ item.img.url }}" class="img_component">
                     {% else %}
-                        <div style="width: 100px; height: 100px; background: #eee; margin-right: 20px;">Нет фото</div>
+                        <img src="{% static 'conputer/img/default.png' %}" class="img_component default">
                     {% endif %}
 
                         <h2>{{ item.category.name }} {{ item.brand.name }} {{ item.name }}</h2>

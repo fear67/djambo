@@ -43,7 +43,7 @@
                     {% if build.main_photo %}
                         <img src="{{ build.main_photo.url }}" class="img_component">
                     {% else %}
-                        <div class="img_component">Нет фото</div>
+                        <img src="{% static 'conputer/img/default.png' %}" class="img_component default">
                     {% endif %}
                     <div>
                         <h2>{{ build.title }}</h2>

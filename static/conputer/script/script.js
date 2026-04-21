@@ -44,36 +44,35 @@ document.addEventListener('click', function (e) {
         }
     }
 
-    // 4. Выбор КОМПОНЕНТА из списка (Building)
-    const card = e.target.closest('.js-build-card');
-    if (card) {
-        // Восстанавливаем активное поле из URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const fieldName = urlParams.get('active_field');
+const card = e.target.closest('.js-build-card');
+if (card) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fieldName = urlParams.get('active_field');
+    if (fieldName) {
+        const componentId = card.getAttribute('data-id');
+        const componentName = card.getAttribute('data-name');
+        const componentPrice = card.getAttribute('data-price'); // 1. Вытаскиваем цену
 
-        if (fieldName) {
-            const componentId = card.getAttribute('data-id');
-            const componentName = card.getAttribute('data-name');
+        const select = document.querySelector(`select[name="${fieldName}"]`);
+        if (select) {
+            select.value = componentId;
+            console.log(1)
+            localStorage.setItem('build_' + fieldName, componentId);
+            localStorage.setItem('name_' + fieldName, componentName);
+            localStorage.setItem('price_' + fieldName, componentPrice); // 2. Сохраняем цену в память
             
-            // Записываем в скрытый select Django
-            const select = document.querySelector(`select[name="${fieldName}"]`);
-            if (select) {
-                select.value = componentId;
-                
-                // Сохраняем выбор в память (localStorage)
-                localStorage.setItem('build_' + fieldName, componentId);
-                localStorage.setItem('name_' + fieldName, componentName);
-                
-                // Обновляем текст на странице (span "Не выбрано")
-                const displayVal = document.getElementById('val-' + fieldName);
-                if (displayVal) {
-                    displayVal.textContent = componentName;
-                }
+            const displayVal = document.getElementById('val-' + fieldName);
+            if (displayVal) {
+                displayVal.textContent = componentName;
             }
-        } else {
-            alert("Сначала выберите категорию (кнопку) слева!");
+
+            // 3. Запускаем пересчет суммы сразу после выбора
+            calculateTotal(); 
         }
+    } else {
+        alert("Сначала выберите категорию (кнопку) слева!");
     }
+}
 
     const clear = e.target.closest('.clearBuild');
     if (clear) {
@@ -186,4 +185,23 @@ function previewImage(input) {
     }
 }
 
+function calculateTotal() {
+    let total = 0;
+    // Список всех полей, где может быть цена
+    const fields = ['cpu', 'gpu', 'motherboard', 'ram', 'powerSupply', 'case', 'storage_primary', 'storage_second', 'cooller', 'coollerCase'];
+    
+    fields.forEach(field => {
+        // Достаем цену из памяти, переводим в число (или 0, если пусто)
+        const price = parseInt(localStorage.getItem('price_' + field)) || 0;
+        total += price;
+    });
 
+    // Ищем твой блок с id="total-price" и пишем туда сумму
+    const totalDisplay = document.getElementById('total-price');
+    if (totalDisplay) {
+        // toLocaleString() добавит красивые пробелы между тысячами (10 000 вместо 10000)
+        totalDisplay.textContent = total.toLocaleString() + ' ₽';
+    }
+}
+
+window.addEventListener('load', calculateTotal);
