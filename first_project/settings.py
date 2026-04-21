@@ -130,3 +130,8 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 ALLOWED_HOSTS = ['*']
+
+csrf_trusted_origins = [
+    'https://*.railway.app',
+    'https://*.up.railway.app'
+]
