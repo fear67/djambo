@@ -131,7 +131,7 @@ LOGOUT_REDIRECT_URL = 'home'
 
 ALLOWED_HOSTS = ['*']
 
-csrf_trusted_origins = [
+CSRF_TRUSTED_ORIGINS = [
     'https://*.railway.app',
     'https://*.up.railway.app',
     'https://djambo-production.up.railway.app'
