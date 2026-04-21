@@ -1116,29 +1116,26 @@ html {
 
     /* === ГЛАВНАЯ (HOME) === */
     .slider-wrapper {
-        flex-direction: column;
-        padding: 0 10px;
+        position: relative;
+        padding: 0;
     }
 
+    /* СКРЫВАЕМ КНОПКИ ПРОКРУТКИ СЛАЙДЕРА */
     .nav-btn {
-        display: flex;
-        position: absolute;
-        top: 40%;
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        background: rgba(0,0,0,0.7);
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        z-index: 5;
+        display: none !important;
     }
-    .prev { left: -5px; }
-    .next { right: -5px; }
 
+    /* УБИРАЕМ СКРОЛЛБАР У ГОРИЗОНТАЛЬНОГО СЛАЙДЕРА */
     .sort {
         padding: 0.5rem 0;
         margin: 0.5rem 0;
+        overflow-x: auto;
+        scrollbar-width: none !important; /* Firefox */
+        -ms-overflow-style: none !important; /* IE/Edge */
+    }
+
+    .sort::-webkit-scrollbar {
+        display: none !important; /* Chrome/Safari */
     }
 
     .sortblock {
@@ -1157,28 +1154,48 @@ html {
         font-size: 0.75rem;
     }
 
+    /* ФИЛЬТР — УБИРАЕМ ФОН, ВЫРАВНИВАНИЕ ВПРАВО */
     .sortByPriceAND {
-        flex-direction: column;
-        padding: 0 1rem;
-        margin-top: 1.5rem;
-        gap: 10px;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+        padding: 0 1rem !important;
+        margin-top: 1.5rem !important;
+        gap: 10px 15px !important;
+        background: none !important;
+        border-radius: 0 !important;
     }
 
     #sort-select {
-        margin-right: 0;
-        width: 100%;
-        background-color: rgba(0,0,0,0.3);
-        border-radius: 10px;
-        text-align: center;
+        margin-right: 0 !important;
+        width: auto !important;
+        min-width: 180px !important;
+        background: none !important;
+        border: none !important;
+        text-align: right !important;
+        padding: 8px 0 !important;
+        color: rgb(177, 177, 177) !important;
+        font-size: 0.9rem !important;
+    }
+
+    #sort-select option {
+        background-color: #1a1a1a !important;
+        text-align: right !important;
     }
 
     .search-form {
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: wrap !important;
+        justify-content: flex-end !important;
+        gap: 8px !important;
+        background: none !important;
     }
 
     .searchField {
-        width: 100%;
+        width: auto !important;
+        min-width: 160px !important;
+        background: rgba(51, 51, 51, 0.24) !important;
+        padding: 8px 15px !important;
     }
 
     /* Сетка товаров */
@@ -1291,6 +1308,18 @@ html {
         grid-template-columns: 1fr !important;
     }
 
+    /* ФИЛЬТР В СООБЩЕСТВЕ — ТОЖЕ УБИРАЕМ ФОН И ВЫРАВНИВАЕМ ВПРАВО */
+    .buildsGrid + div .sortByPriceAND,
+    main > .sortByPriceAND {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: flex-end !important;
+        background: none !important;
+        padding: 0 1rem !important;
+        margin-top: 1rem !important;
+        gap: 10px !important;
+    }
+
     .build-modal-content {
         width: 95% !important;
         padding: 1.5rem !important;
@@ -1379,10 +1408,10 @@ html {
         margin-left: auto !important;
     }
 
-    /* === ЗАКАЗЫ === */
+    /* === ЗАКАЗЫ — УВЕЛИЧИВАЕМ ОТСТУПЫ МЕЖДУ РАЗДЕЛАМИ === */
     .orders-layout {
         flex-direction: column !important;
-        gap: 2rem !important;
+        gap: 3rem !important; /* БЫЛО 2rem, СТАЛО 3rem */
         padding: 5px !important;
         margin-top: 1rem !important;
     }
@@ -1392,17 +1421,36 @@ html {
         padding: 0 !important;
     }
 
+    /* Увеличиваем отступ между секциями внутри правой колонки */
+    .col-right .thin-title {
+        margin-top: 3rem !important; /* Добавляем отступ сверху */
+    }
+
+    .col-right .thin-title:first-of-type {
+        margin-top: 0 !important; /* У первого заголовка убираем отступ */
+    }
+
     .thin-title {
         font-size: 1.8rem !important;
-        margin-bottom: 1rem !important;
+        margin-bottom: 1.5rem !important; /* Увеличиваем отступ снизу */
     }
 
     .align-right {
         text-align: left !important;
     }
 
+    /* Отступ между блоками в правой колонке */
+    .transparent-block {
+        margin-bottom: 1rem !important;
+    }
+
+    .favorite-section {
+        margin: 2rem 0 !important; /* Увеличиваем отступы вокруг избранного */
+        padding: 1.5rem 0 !important;
+    }
+
     .cart-glass-panel {
-        padding: 1rem !important;
+        padding: 1.5rem !important;
     }
 
     .mini-order-card {
@@ -1410,7 +1458,7 @@ html {
         justify-content: flex-start !important;
         text-align: left !important;
         padding: 15px 0 !important;
-        margin-bottom: 1.5rem !important;
+        margin-bottom: 2rem !important; /* Увеличиваем отступ между карточками */
         border-bottom: 1px solid #333;
     }
 
