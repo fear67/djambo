@@ -1045,42 +1045,327 @@ html {
 
 
 @media (max-width: 768px) {
-    /* 1. Главный контейнер (для Orders и Configurator) */
-    .orders-layout, 
+
+    /* === ОБЩИЕ ПРАВИЛА И СБРОСЫ === */
+    body {
+        background: #0b0a1a !important; /* Глубокий фон вместо градиента для производительности */
+        background-attachment: scroll !important;
+    }
+
+    body::before, body::after {
+        display: none !important; /* Убираем фоновые картинки компьютера, чтобы не мешали */
+    }
+
+    main {
+        min-height: auto !important;
+        padding: 0 10px;
+    }
+
+    /* === ШАПКА (HEADER) === */
+    .navbar {
+        flex-direction: column !important;
+        width: 95% !important;
+        height: auto !important;
+        padding: 15px 5px !important;
+        margin: 10px auto !important;
+        gap: 15px !important;
+    }
+
+    .navbar h1 {
+        font-size: 1.4rem;
+        text-align: center;
+        padding: 0;
+    }
+
+    li.navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        padding: 5px 0;
+        gap: 5px;
+    }
+
+    li.navbar ul {
+        margin: 0;
+        padding: 0 5px;
+    }
+
+    li.navbar a {
+        font-size: 0.75rem;
+        padding: 6px 8px;
+    }
+
+    .flex {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    /* === ГЛАВНАЯ (HOME) === */
+    .slider-wrapper {
+        flex-direction: column;
+        padding: 0 10px;
+    }
+
+    .nav-btn {
+        display: flex; /* Показываем кнопки прокрутки слайдера на мобилках */
+        position: absolute;
+        top: 40%;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: rgba(0,0,0,0.7);
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+    .prev { left: -5px; }
+    .next { right: -5px; }
+
+    .sort {
+        padding: 0.5rem 0;
+        margin: 0.5rem 0;
+    }
+
+    .sortblock {
+        flex: 0 0 160px;
+        min-height: 60px;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .sortimg {
+        max-width: 50px;
+        max-height: 50px;
+        margin: 0.5rem auto;
+    }
+
+    .sortname {
+        font-size: 0.75rem;
+    }
+
+    .sortByPriceAND {
+        flex-direction: column;
+        padding: 0 1rem;
+        margin-top: 1.5rem;
+        gap: 10px;
+    }
+
+    #sort-select {
+        margin-right: 0;
+        width: 100%;
+        background-color: rgba(0,0,0,0.3);
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .search-form {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .searchField {
+        width: 100%;
+    }
+
+    /* Сетка товаров на главной */
+    .gridComponents {
+        grid-template-columns: 1fr !important;
+        gap: 15px;
+        margin: 1rem 0.5rem !important;
+    }
+
+    /* === КОНФИГУРАТОР (BUILDING) === */
     .building {
         flex-direction: column !important;
-        gap: 2rem !important;
-        padding: 10px !important;
         margin-top: 1rem !important;
     }
 
-    /* 2. Колонки в заказах и конфигураторе на всю ширину */
-    .col-left, 
-    .col-right,
-    .sidebar,
-    .main-build-area {
-        width: 100% !important;
+    /* Левая колонка со списком деталей */
+    .column {
         max-width: 100% !important;
+        width: 100% !important;
     }
 
-    /* 3. Заголовки (Orders) — убираем отзеркаливание вправо */
-    .thin-title.align-right {
+    .component_box {
+        margin: 8px 0 !important;
+        padding: 8px !important;
+    }
+
+    .img_component {
+        min-width: 60px;
+        min-height: 60px;
+        width: 60px;
+        margin-right: 10px;
+    }
+
+    /* Правая sticky область с формой */
+    .formarea {
+        margin: 0.5rem 0 !important;
+        width: 100% !important;
+        max-height: none !important;
+        position: static !important; /* Отключаем sticky на мобилках */
+        min-height: auto !important;
+        padding: 15px 5px !important;
+    }
+
+    .maininfo.flex {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #photopreviewbox {
+        margin: 1rem auto;
+        justify-content: center;
+    }
+
+    .butcont {
+        flex-direction: column !important;
+        gap: 5px !important;
+        overflow-y: visible;
+        max-height: none;
+    }
+
+    .field-container {
+        width: 100% !important;
+    }
+
+    .UsCompBox {
+        margin: 0.5rem 0 !important;
+        width: 100%;
+    }
+
+    .photoupload {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .formaction {
+        margin: 0.5rem !important;
+        font-size: 0.8rem !important;
+        padding: 12px 15px !important;
+        text-align: center;
+        flex: 1 0 40%;
+    }
+
+    /* Визуализатор ПК в конфигураторе */
+    .pc-visualizer-area {
+        width: 100% !important;
+        min-height: 300px !important;
+        margin: 1.5rem 0 !important;
+        overflow: hidden;
+    }
+
+    .scene {
+        width: 280px !important;
+        height: 280px !important;
+        transform: scale(0.9);
+    }
+
+    /* Корректируем позиции слоев на мобилке, чтобы не разъезжались */
+    .gpu-layer { transform: translate(-80%, -52%) scale(0.6) !important; width: 65% !important; }
+    .cooller-layer { transform: translate(-73%, -79%) scale(0.35) !important; }
+    .mboard-layer { transform: translate(-78%, -68%) scale(0.8) !important; }
+
+    /* === СТРАНИЦА "МОИ СБОРКИ" (MY BUILDS) === */
+    .gridmybuilds {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        margin: 1rem !important;
+    }
+
+    .mybuild {
+        width: 100% !important;
+    }
+
+    #infomybuild {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    #infomybuild .img_component {
+        width: 80px;
+        margin-right: 0;
+    }
+
+    .componentActions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .componentActions .actions {
+        min-width: 100px;
+        flex: 1 0 40%;
+    }
+
+    .fav-form {
+        position: static !important;
+        margin-left: 5px;
+    }
+
+    .star-btn {
+        padding: 8px 12px !important;
+        font-size: 1.5rem !important;
+    }
+
+    /* === СООБЩЕСТВО (COMMUNITY / BUILD LIST) === */
+    .buildsGrid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .build-modal-content {
+        width: 95% !important;
+        padding: 1.5rem !important;
+    }
+
+    .specs-grid {
+        gap: 8px;
+    }
+
+    .spec-item {
+        font-size: 0.8rem;
+    }
+
+    /* === ЗАКАЗЫ (ORDERS) === */
+    .orders-layout {
+        flex-direction: column !important;
+        gap: 2rem !important;
+        padding: 5px !important;
+        margin-top: 1rem !important;
+    }
+
+    .col-left, .col-right {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .thin-title {
+        font-size: 1.8rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .align-right {
         text-align: left !important;
-        padding-right: 0 !important;
     }
 
-    /* 4. Навигация (Header) — чтобы не ломалась */
-    .navbar {
-        justify-content: center !important;
-        height: auto !important;
+    .cart-glass-panel {
         padding: 1rem !important;
     }
 
-    /* 5. Карточки в корзине (чтобы кнопки не вылезали) */
     .mini-order-card {
         flex-wrap: wrap !important;
         justify-content: center !important;
         text-align: center !important;
+        padding: 15px 0 !important;
+        margin-bottom: 1.5rem !important;
+        border-bottom: 1px solid #333;
+    }
+
+    .mini-img {
+        width: 120px !important;
+        height: 120px !important;
+        margin-bottom: 10px;
     }
 
     .mini-info {
@@ -1088,20 +1373,38 @@ html {
         width: 100% !important;
     }
 
-    /* 6. Сетка товаров в каталоге */
-    .gridComponents {
-        grid-template-columns: 1fr !important; /* По одной карточке в ряд на узких экранах */
-        margin: 1rem !important;
+    .col-right .mini-info {
+        text-align: center !important;
     }
 
-    /* 7. Уменьшаем гигантские шрифты */
-    .thin-title {
-        font-size: 1.5rem !important;
+    .empty-actions {
+        flex-direction: column;
+        width: 100%;
     }
 
-    body {
-        /* Убираем градиент, ставим глубокий темный цвет из твоей палитры */
-        background: #1c002c !important; 
-        background-image: none !important;
+    .empty-actions .actions {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /* === ФУТЕР === */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .footer-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    /* === МОДАЛЬНЫЕ ОКНА === */
+    .modal-content {
+        width: 95% !important;
+        padding: 1.5rem !important;
     }
 }
